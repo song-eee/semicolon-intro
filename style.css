@@ -1038,8 +1038,11 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   .trust .container{padding-left:40px;padding-right:40px;}
   .trust-text{white-space:normal;}
 
-  /* Stack the two-column teasers so each column keeps the container's side padding */
-  .s2-grid,.s3-grid{justify-content:center;}
+  /* Stack the two-column teasers. The left column takes the full width and stays
+     left-aligned (its natural content width was being centered by the flex row,
+     which left a big gap on the left and read as centered on mobile). */
+  .s2-grid,.s3-grid{justify-content:flex-start;}
+  .s2-left,.s3-left{width:100%;}
   .s4-grid{grid-template-columns:1fr;row-gap:36px;}
   .s4-visual{width:100%;}
 }
@@ -1070,8 +1073,12 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
      land on top of the wrapped text, so put the tags back into normal flow (text then
      tags, matching the PC layout). */
   .s2-visual .s2-btn-wrap{left:0;top:15%;}
-  .s2-bubble{width:min(300px,calc(100vw - 80px));height:auto;}
-  .s2-bubble-tags{position:static;margin-top:14px;flex-wrap:wrap;}
+  /* Keep the box wide enough that the 4 fixed-width tags (4x60 + 3x5 gap = 255px)
+     always fit on one line, even on ~360px phones: box up to 320px but never wider
+     than the viewport minus a small margin, with slightly tighter padding so the
+     inner width clears 255px. Tags never wrap. */
+  .s2-bubble{width:min(320px,calc(100vw - 28px));height:auto;padding:16px;}
+  .s2-bubble-tags{position:static;margin-top:14px;flex-wrap:nowrap;}
 
   /* Section 4 blocks are laid out at fixed pixel widths — cap/scale them to fit.
      The bubble cluster is a fixed 520px design, so scale it down as one unit and
