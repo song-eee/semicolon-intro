@@ -674,7 +674,7 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
 .s4-tab.active{background:#484441;color:#fff;font-weight:700;}
 .s4-panel{
   background:#F9F7F2;
-  border-radius:20px;
+  border-radius:30px;
   box-shadow:0 16px 40px rgba(0,0,0,.06);
   padding:40px 20px 20px;
 }
@@ -756,73 +756,63 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
 /* ===== Section 4 · 생각별 panel ===== */
 .s4-panel[hidden]{display:none;}
 .s4-panel-thought{
-  max-height:880px;
-  overflow-y:auto;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
+  overflow:visible;
 }
-.s4-panel-thought::-webkit-scrollbar{width:6px;}
-.s4-panel-thought::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:3px;}
 .s4-tp-intro{
   font-family:var(--pretendard);font-size:15px;font-weight:400;
-  color:#555;line-height:1.6;margin:0 0 22px;
+  color:#000;line-height:1.6;margin:0 0 22px;
+  text-align:center;
 }
 .s4-tp-intro strong{font-weight:700;color:#111;}
 
-/* node map */
+/* node map (그룹) — 박스 좌우 중앙정렬, 상단 50 / 하단 80 */
 .s4-tp-map{
-  display:flex;flex-direction:column;gap:16px;
-  padding:16px 2px 26px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:50px 0 80px;
 }
 .s4-tp-row{
-  display:flex;align-items:center;gap:6px;
+  display:flex;align-items:center;justify-content:center;gap:5px;
   flex-wrap:nowrap;
 }
-.s4-tp-node{
-  position:relative;flex:0 0 auto;
-  width:30px;height:30px;border-radius:50%;
-  background:var(--c);
-  display:flex;align-items:center;justify-content:center;
-  color:#fff;font-family:var(--pretendard);font-size:11px;font-weight:700;
+/* 첨부 이미지(1~11.png)를 그대로 사용 — 높이 30 통일 */
+.tpm-img{
+  flex:0 0 auto;
+  height:30px;width:auto;display:block;
 }
-.s4-tp-node-muted{background:#D3CFC6;color:#8B8880;}
-.s4-tp-arrow{
-  flex:0 0 auto;color:#C4BFB4;font-size:15px;line-height:1;
-}
-.s4-tp-badges{
-  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
-  display:flex;gap:1px;line-height:1;white-space:nowrap;
-}
-.s4-tp-badges i{font-size:10px;font-style:normal;}
-.s4-tp-badges .b-heart{color:#FF2D2D;}
-.s4-tp-badges .b-share{color:#00BF96;}
 
-/* type filters */
+/* type filters — bg 박스에 가득 차도록 균등 배열 */
 .s4-tp-filters{
-  display:flex;gap:24px;
-  border-bottom:1px solid #E6E1D6;
-  margin:4px 0 22px;
+  display:flex;align-items:stretch;
+  width:480px;height:60px;
+  box-sizing:border-box;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:12px;
+  margin:4px 0 0;
 }
 .s4-tp-filter{
+  flex:1;
   position:relative;
-  display:inline-flex;align-items:center;gap:7px;
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
   background:none;border:none;cursor:pointer;
-  padding:0 2px 12px;
-  font-family:var(--pretendard);font-size:15px;font-weight:500;color:#8A8A8A;
+  padding:0;
+  font-family:var(--pretendard);font-size:15px;font-weight:400;color:#000;
 }
 .s4-tp-filter .s4-tp-fdot{
   width:9px;height:9px;border-radius:50%;background:var(--c);flex:0 0 auto;
 }
-.s4-tp-filter.active{color:#111;font-weight:700;}
+.s4-tp-filter.active{font-weight:700;}
+/* 선택된 탭 하단 4px 라인 — 탭 컬러와 동일 */
 .s4-tp-filter.active::after{
-  content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;
-  background:var(--c);border-radius:2px;
+  content:'';position:absolute;left:0;right:0;bottom:0;height:4px;
+  background:var(--c);
 }
 
 /* list + cards */
 .s4-tp-lead{
-  font-family:var(--pretendard);font-size:14px;font-weight:700;
-  color:#222;margin:0 0 12px;
+  font-family:var(--pretendard);font-size:15px;font-weight:700;
+  color:#222;margin:30px 0 12px;
 }
 .s4-tp-list{margin-bottom:6px;}
 .s4-tp-item{
@@ -833,26 +823,22 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
 }
 .s4-tp-item p{
   margin:0;flex:1 1 auto;
-  font-family:var(--pretendard);font-size:13.5px;font-weight:400;
+  font-family:var(--pretendard);font-size:15px;font-weight:400;
   line-height:1.5;color:#333;
 }
-.s4-tp-item-lg p{font-size:14px;line-height:1.6;}
+.s4-tp-item-lg p{font-size:15px;line-height:1.6;}
 .s4-tp-num{
   flex:0 0 auto;
-  font-family:var(--pretendard);font-size:15px;font-weight:700;color:#333;
+  font-family:var(--pretendard);font-size:15px;font-weight:500;color:#333;
 }
-.s4-tp-pager{
-  flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;
+/* 요약 밑 목록들: 좌측 텍스트와 우측 숫자 사이 여백 30px */
+.s4-panel-thought > .s4-tp-item:not(.s4-tp-item-person){
+  justify-content:flex-start;
+  gap:30px;
 }
-.s4-tp-page{
-  font-family:var(--pretendard);font-size:13px;font-weight:700;color:#333;
+.s4-panel-thought > .s4-tp-item:not(.s4-tp-item-person) > p{
+  flex:0 1 auto;
 }
-.s4-tp-chevs{
-  display:inline-flex;align-items:center;gap:2px;
-  padding:3px 7px;border:1px solid #E2DDD2;border-radius:8px;
-  color:#8A8A8A;font-size:10px;line-height:1;
-}
-.s4-tp-chevs i{font-style:normal;}
 
 /* section headings */
 .s4-tp-h{
@@ -861,6 +847,7 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
   margin:24px 0 10px;
 }
 .s4-tp-hicon{font-size:15px;line-height:1;}
+.s4-tp-hicon-img{height:16px;width:auto;display:inline-block;flex:0 0 auto;}
 .s4-tp-hdot{width:11px;height:11px;border-radius:50%;background:#00BF96;flex:0 0 auto;}
 .s4-tp-h-heart{color:#E5484D;}
 .s4-tp-h-heart .s4-tp-hicon{color:#E5484D;}
@@ -875,7 +862,7 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
 }
 .s4-tp-num-text{
   flex:0 0 auto;
-  font-family:var(--pretendard);font-size:13px;font-weight:600;color:#777;
+  font-family:var(--pretendard);font-size:13px;font-weight:400;color:#777;
 }
 
 /* ===== Split sections (solo / trust) ===== */
@@ -1050,7 +1037,63 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
 @media (max-width:900px){
   .trust .container{padding-left:40px;padding-right:40px;}
   .trust-text{white-space:normal;}
+
+  /* Stack the two-column teasers so each column keeps the container's side padding */
+  .s2-grid,.s3-grid{justify-content:center;}
+  .s4-grid{grid-template-columns:1fr;row-gap:36px;}
+  .s4-visual{width:100%;}
+}
+@media (max-width:640px){
+  /* Section titles/ledes: let them wrap and shrink instead of overflowing the screen */
+  .s2-title,.s3-title,.s4-title{
+    font-size:clamp(28px,8vw,50px);
+    white-space:normal;
+  }
+  .s2-lede,.s3-lede{
+    font-size:clamp(15px,4.2vw,18px);
+    white-space:normal;
+  }
+  .s4-lede{font-size:clamp(15px,4.2vw,18px);}
+
+  /* Teaser visuals scale down to the viewport width; % overlays follow the image */
+  .s2-visual,.s3-visual{width:100%;max-width:450px;margin:0 auto;}
+  .s2-visual img,.s3-visual img{width:100%;}
+
+  /* Floating preview cards would otherwise hang off the right edge and clip their
+     own text. s3's comment card drops below the article; s2's tag bubble is pulled
+     in from the edge and allowed to grow to the narrower width. */
+  .s3-comments{position:static;width:auto;margin-top:16px;}
+  .s2-visual .s2-btn-wrap{left:20px;}
+  .s2-bubble{width:min(300px,calc(100vw - 80px));height:auto;}
+
+  /* Section 4 blocks are laid out at fixed pixel widths — cap/scale them to fit.
+     The bubble cluster is a fixed 520px design, so scale it down as one unit and
+     reserve the scaled height so the cards below don't get overlapped. */
+  .s4-panel{padding:32px 16px 16px;}
+  .s4-bubbles{
+    transform:scale(.6);
+    transform-origin:top left;
+    width:312px;   /* 520 * .6 */
+    height:190px;  /* ~316 * .6 */
+    margin:0 auto 16px;
+  }
+  .s4-tp-filters{width:100%;max-width:480px;}
+  .s4-tp-row{flex-wrap:wrap;}
+
+  /* Trust: no longer forced onto one line; stack the CTA buttons */
+  .trust .container{padding-left:24px;padding-right:24px;}
+  .trust-text{font-size:1rem;line-height:1.6;}
+  .trust-links{margin-top:56px;flex-wrap:wrap;gap:16px;}
+  .trust-link{width:100%;max-width:280px;}
 }
 @media (max-width:560px){
   .counters{flex-wrap:wrap;row-gap:10px;}
+}
+@media (max-width:400px){
+  /* Even narrower phones: scale the bubble cluster down a touch more so it fits */
+  .s4-bubbles{
+    transform:scale(.5);
+    width:260px;   /* 520 * .5 */
+    height:158px;  /* ~316 * .5 */
+  }
 }

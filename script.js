@@ -270,6 +270,20 @@ window.addEventListener('resize', () => {
   heroFitTimer = setTimeout(fitHeroText, 100);
 });
 
+// The text-fit math above runs synchronously, before the Korean web fonts finish
+// loading — so it measures against fallback-font metrics and can pick a size that
+// overflows once the real (wider) glyphs render, clipping the text left and right
+// on mobile. Re-fit once the fonts are ready, and again on full load as a fallback.
+function refitText(){
+  fitHeroText();
+  fitWhySub();
+  fitAllWhyMarks();
+}
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(refitText);
+}
+window.addEventListener('load', refitText);
+
 // Hero mark sequence:
 // 1) dot and line 1 both fade in together at the start (line 1 sits 20px below dot).
 // 2) after a delay, dot rises out of the way while colon fades in at dot's
@@ -527,7 +541,10 @@ function syncS4Height(){
   const trust = document.getElementById('trust');
   if (!s3 || !s4) return;
   const h = s3.getBoundingClientRect().height;
+  // Section 4 height fixed to section 3; taller panels (e.g. 생각별) are clipped by overflow:hidden
+  s4.style.minHeight = '';
   s4.style.height = h + 'px';
+  if (trust) trust.style.minHeight = '';
   if (trust) trust.style.height = h + 'px';
 }
 syncS4Height();
