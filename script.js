@@ -1,3 +1,17 @@
+// Block pinch-to-zoom. The viewport meta (user-scalable=no) covers Android, but
+// iOS Safari ignores it, so also cancel the pinch gesture events it fires. These
+// events only fire for multi-touch pinch/rotate, so single-finger scrolling is
+// unaffected. Double-tap zoom is also suppressed by preventing rapid double taps.
+['gesturestart', 'gesturechange', 'gestureend'].forEach(evt =>
+  document.addEventListener(evt, e => e.preventDefault(), { passive: false })
+);
+let lastTouchEnd = 0;
+document.addEventListener('touchend', e => {
+  const now = Date.now ? Date.now() : new Date().getTime();
+  if (now - lastTouchEnd <= 300) e.preventDefault();
+  lastTouchEnd = now;
+}, { passive: false });
+
 // Header background follows the current section (hero / why / section2)
 const header = document.querySelector('header');
 const navSections = [
