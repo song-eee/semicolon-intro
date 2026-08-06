@@ -1062,10 +1062,12 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   .s2-visual,.s3-visual{width:100%;max-width:450px;margin:0 auto;}
   .s2-visual img,.s3-visual img{width:100%;}
 
-  /* Floating preview cards would otherwise hang off the right edge and clip their
-     own text. s3's comment card drops below the article; s2's tag bubble is pulled
-     in from the edge and allowed to grow to the narrower width. */
-  .s3-comments{position:static;width:auto;margin-top:16px;}
+  /* s3 comment card: mirror the s2 bubble. Keep it absolutely positioned (as on
+     PC) — if it flows in normal layout it adds to the article's height, and the
+     percentage-based highlight overlays (measured against that taller box) slide
+     down off the highlighted lines. Float it left-aligned, just below the
+     highlighted lines, sized to fit the viewport so it doesn't hang off the edge. */
+  .s3-comments{left:0;top:15%;width:min(320px,calc(100vw - 28px));}
 
   /* s2 tag bubble: move it left-aligned and just below the highlighted lines so it
      doesn't cover them, and let it grow with its content. The tags row is normally
