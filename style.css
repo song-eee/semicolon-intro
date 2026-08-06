@@ -1063,8 +1063,15 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
      own text. s3's comment card drops below the article; s2's tag bubble is pulled
      in from the edge and allowed to grow to the narrower width. */
   .s3-comments{position:static;width:auto;margin-top:16px;}
-  .s2-visual .s2-btn-wrap{left:20px;}
+
+  /* s2 tag bubble: move it left-aligned and just below the highlighted lines so it
+     doesn't cover them, and let it grow with its content. The tags row is normally
+     pinned to the bottom of a fixed-height box; with the box now auto-height it would
+     land on top of the wrapped text, so put the tags back into normal flow (text then
+     tags, matching the PC layout). */
+  .s2-visual .s2-btn-wrap{left:0;top:15%;}
   .s2-bubble{width:min(300px,calc(100vw - 80px));height:auto;}
+  .s2-bubble-tags{position:static;margin-top:14px;flex-wrap:wrap;}
 
   /* Section 4 blocks are laid out at fixed pixel widths — cap/scale them to fit.
      The bubble cluster is a fixed 520px design, so scale it down as one unit and
