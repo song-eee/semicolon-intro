@@ -487,24 +487,42 @@ if (s2Visual && s2BtnWrap) {
   s2Observer.observe(s2Visual);
 }
 
-// Section 4 insight tabs
-const s4Tabs = document.querySelectorAll('.s4-tab');
+// Section 4 insight tabs — auto-rotate every 2s, but manual clicks still switch
+// (and restart the timer so the clicked tab holds for a full interval).
+const s4Tabs = Array.from(document.querySelectorAll('.s4-tab'));
 const s4Panels = document.querySelectorAll('.s4-panel');
-s4Tabs.forEach(btn => {
+const S4_TAB_INTERVAL = 2000;
+function activateS4Tab(btn){
+  s4Tabs.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const target = btn.dataset.target;
+  let matched = false;
+  s4Panels.forEach(p => {
+    const isMatch = p.dataset.view === target;
+    p.hidden = !isMatch;
+    if (isMatch) matched = true;
+  });
+  // Fallback to the first (주제별) panel for tabs without a dedicated view
+  if (!matched) s4Panels.forEach((p, i) => { p.hidden = i !== 0; });
+}
+let s4TabIdx = 0;
+let s4TabTimer = null;
+function startS4TabRoll(){
+  clearInterval(s4TabTimer);
+  s4TabTimer = setInterval(() => {
+    if (!s4Tabs.length) return;
+    s4TabIdx = (s4TabIdx + 1) % s4Tabs.length;
+    activateS4Tab(s4Tabs[s4TabIdx]);
+  }, S4_TAB_INTERVAL);
+}
+s4Tabs.forEach((btn, i) => {
   btn.addEventListener('click', () => {
-    s4Tabs.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const target = btn.dataset.target;
-    let matched = false;
-    s4Panels.forEach(p => {
-      const isMatch = p.dataset.view === target;
-      p.hidden = !isMatch;
-      if (isMatch) matched = true;
-    });
-    // Fallback to the first (주제별) panel for tabs without a dedicated view
-    if (!matched) s4Panels.forEach((p, i) => { p.hidden = i !== 0; });
+    s4TabIdx = i;
+    activateS4Tab(btn);
+    startS4TabRoll(); // restart the interval so the clicked tab stays for a full 2s
   });
 });
+if (s4Tabs.length) startS4TabRoll();
 
 // Section 4 · 생각별 type filters (공감 / 의문 / 분석 / 비판)
 const s4TpFilters = document.querySelectorAll('.s4-tp-filter');
@@ -537,8 +555,11 @@ if (s4BubblesEl) {
   function stepS4Bubbles(){
     // Bounds follow the element's live size, so the circles fill whatever area the
     // CSS gives them (520x300 on desktop, the full panel width x height on mobile).
-    const BOUND_W = s4BubblesEl.clientWidth || 520;
-    const BOUND_H = s4BubblesEl.clientHeight || 300;
+    const BOUND_W = s4BubblesEl.clientWidth;
+    const BOUND_H = s4BubblesEl.clientHeight;
+    // Paused while the 주제별 panel is hidden (0 size) — avoids the circles drifting
+    // out of bounds and snapping back when the auto-rolling tab returns to it.
+    if (!BOUND_W || !BOUND_H) { requestAnimationFrame(stepS4Bubbles); return; }
     // integrate
     balls.forEach(b => {
       b.cx += b.vx;
@@ -586,6 +607,13 @@ function syncS4Height(){
   const s4 = document.getElementById('section4');
   const trust = document.getElementById('trust');
   if (!s3 || !s4) return;
+  // On mobile the panels (특히 생각별 / 멤버별) are taller than section 3, so clamping
+  // to its height would clip them. Let the sections size to their own content instead.
+  if (window.matchMedia('(max-width:640px)').matches) {
+    s4.style.height = ''; s4.style.minHeight = '';
+    if (trust) { trust.style.height = ''; trust.style.minHeight = ''; }
+    return;
+  }
   const h = s3.getBoundingClientRect().height;
   // Section 4 height fixed to section 3; taller panels (e.g. 생각별) are clipped by overflow:hidden
   s4.style.minHeight = '';

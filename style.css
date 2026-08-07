@@ -868,6 +868,85 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
   font-family:var(--pretendard);font-size:13px;font-weight:400;color:#777;
 }
 
+/* ===== Section 4 · 멤버별 panel ===== */
+.s4-panel-member{overflow:visible;}
+
+/* thought-distance map: a scatter of thought dots with a few member avatars */
+.s4-mb-map{position:relative;width:100%;height:300px;margin:0 0 6px;}
+.s4-mb-dot{
+  position:absolute;transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#F6F0DE,#E4D9B8);
+}
+.s4-mb-me{position:absolute;transform:translate(-50%,-50%);z-index:3;}
+.s4-mb-me-av{
+  width:58px;height:58px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#EDE7DA,#D8CBB0);
+  border:3px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.15);
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+}
+.s4-mb-node{
+  position:absolute;transform:translate(-50%,-50%);z-index:2;
+  width:42px;height:42px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#F1E9D2,#E4D9B8);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--pretendard);font-size:15px;font-weight:700;color:#5A5240;
+}
+.s4-mb-node-alien{background:radial-gradient(circle at 35% 30%,#CFE9CE,#A9D3A6);color:#2E5A2C;}
+.s4-mb-node-badge{position:absolute;right:-6px;bottom:-5px;font-size:14px;line-height:1;}
+
+/* section headings for the member panel */
+.s4-mb-h{margin-top:28px;}
+.s4-mb-hemoji{font-size:16px;line-height:1;}
+
+/* persona card */
+.s4-mb-persona{
+  display:flex;gap:14px;align-items:center;
+  background:#159066;border-radius:16px;padding:18px;
+}
+.s4-mb-persona-av{
+  flex:0 0 auto;width:56px;height:56px;border-radius:50%;
+  background:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;
+}
+.s4-mb-persona p{
+  flex:1;margin:0;color:#fff;
+  font-family:var(--pretendard);font-size:14px;font-weight:400;line-height:1.6;
+}
+.s4-mb-persona strong{font-weight:800;}
+
+/* mate blocks */
+.s4-mb-card{margin-bottom:2px;}
+.s4-mb-mate-top{display:flex;gap:14px;align-items:flex-start;margin-bottom:4px;}
+.s4-mb-mate-top .s4-tp-pill{flex:0 0 auto;align-self:flex-start;white-space:nowrap;}
+.s4-mb-pill-gray{background:#EFEDE7;color:#6B6350;}
+.s4-mb-mate-top p{
+  flex:1;margin:0;
+  font-family:var(--pretendard);font-size:14px;font-weight:400;line-height:1.6;color:#333;
+}
+.s4-mb-attr{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:14px 0;border-top:1px solid #ECE8DE;
+}
+.s4-mb-attr-label{
+  flex:0 0 104px;padding-top:6px;white-space:nowrap;
+  font-family:var(--pretendard);font-size:12px;font-weight:400;color:#999;
+}
+.s4-mb-attr-val{flex:1;display:flex;flex-wrap:wrap;gap:8px;}
+.s4-mb-attr-stack{flex-direction:column;}
+.s4-mb-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:7px 13px;border-radius:8px;background:var(--c);color:#fff;
+  font-family:var(--pretendard);font-size:13px;font-weight:600;white-space:nowrap;
+}
+.s4-mb-topic{
+  align-self:stretch;background:#EFEEE8;border-radius:8px;padding:12px 14px;
+  font-family:var(--pretendard);font-size:14px;font-weight:600;color:#333;
+}
+.s4-mb-sentence{
+  background:#EFEEE8;border-radius:8px;padding:12px 14px;
+  font-family:var(--pretendard);font-size:14px;font-weight:400;line-height:1.6;color:#333;
+}
+
 /* ===== Split sections (solo / trust) ===== */
 .split{
   padding:min(14vw,150px) 0;
@@ -1127,7 +1206,7 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
      freed space at the top (nav is ~73px tall). */
   .s2{padding-top:56px;}
   .s3{padding-top:56px;}
-  .s4{padding-top:56px;}
+  .s4{padding-top:56px;overflow:visible;}  /* let taller panels (생각별/멤버별) show fully */
 
   /* Section 1: 20px gap between the semicolon mark's visible bottom and the text
      below (measured at the settled animation state). */
