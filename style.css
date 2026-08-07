@@ -885,25 +885,25 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
 .s4-mb-map{position:relative;width:100%;height:300px;margin:0 0 6px;}
 .s4-mb-dot{
   position:absolute;transform:translate(-50%,-50%);
-  border-radius:50%;
+  width:20px;height:20px;border-radius:50%;
   background:radial-gradient(circle at 35% 30%,#F6F0DE,#E4D9B8);
 }
 .s4-mb-me{position:absolute;transform:translate(-50%,-50%);z-index:3;}
 .s4-mb-me-av{
-  width:58px;height:58px;border-radius:50%;
-  background:radial-gradient(circle at 40% 35%,#EDE7DA,#D8CBB0);
-  border:3px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.15);
-  display:flex;align-items:center;justify-content:center;font-size:28px;
+  width:50px;height:50px;border-radius:50%;
+  object-fit:cover;display:block;
+  box-shadow:0 3px 8px rgba(0,0,0,.15);
 }
 .s4-mb-node{
   position:absolute;transform:translate(-50%,-50%);z-index:2;
-  width:42px;height:42px;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#F1E9D2,#E4D9B8);
+  width:30px;height:30px;border-radius:50%;
+  border:3px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.12);
+  background:#3A7D3A;                 /* 이 / 재 */
   display:flex;align-items:center;justify-content:center;
-  font-family:var(--pretendard);font-size:15px;font-weight:700;color:#5A5240;
+  font-family:var(--pretendard);font-size:13px;font-weight:700;color:#fff;
 }
-.s4-mb-node-alien{background:radial-gradient(circle at 35% 30%,#CFE9CE,#A9D3A6);color:#2E5A2C;}
-.s4-mb-node-badge{position:absolute;right:-6px;bottom:-5px;font-size:14px;line-height:1;}
+.s4-mb-node-alien{background:#78716C;}   /* 세 / 풍 */
+.s4-mb-node-badge{position:absolute;right:-7px;bottom:-6px;font-size:14px;line-height:1;}
 
 /* section headings for the member panel */
 .s4-mb-h{margin-top:28px;}
@@ -916,7 +916,7 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
 }
 .s4-mb-persona-av{
   flex:0 0 auto;width:56px;height:56px;border-radius:50%;
-  background:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;
+  object-fit:cover;display:block;background:#fff;
 }
 .s4-mb-persona p{
   flex:1;margin:0;color:#fff;
