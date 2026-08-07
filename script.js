@@ -518,7 +518,6 @@ s4TpFilters.forEach(btn => {
 // Section 4 bubble cluster: gentle random drift, bouncing off each other and the 520x300 bounds
 const s4BubblesEl = document.querySelector('.s4-bubbles');
 if (s4BubblesEl) {
-  const BOUND_W = 520, BOUND_H = 300;
   const bubbleEls = Array.from(s4BubblesEl.querySelectorAll('.s4-bubble'));
   const balls = bubbleEls.map(el => {
     const r = el.offsetWidth / 2;
@@ -536,12 +535,16 @@ if (s4BubblesEl) {
   });
 
   function stepS4Bubbles(){
+    // Bounds follow the element's live size, so the circles fill whatever area the
+    // CSS gives them (520x300 on desktop, the full panel width x height on mobile).
+    const BOUND_W = s4BubblesEl.clientWidth || 520;
+    const BOUND_H = s4BubblesEl.clientHeight || 300;
     // integrate
     balls.forEach(b => {
       b.cx += b.vx;
       b.cy += b.vy;
     });
-    // bounce off the virtual 520x300 boundary
+    // bounce off the boundary
     balls.forEach(b => {
       if (b.cx - b.r < 0) { b.cx = b.r; b.vx = Math.abs(b.vx); }
       if (b.cx + b.r > BOUND_W) { b.cx = BOUND_W - b.r; b.vx = -Math.abs(b.vx); }
