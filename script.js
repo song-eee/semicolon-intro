@@ -28,6 +28,29 @@ function updateHeaderScrolled(){
 updateHeaderScrolled();
 window.addEventListener('scroll', updateHeaderScrolled, {passive:true});
 
+// Hide the header while scrolling down and reveal it on scroll up. The translate
+// is gated to mobile in CSS (header.header-hidden), so toggling the class does
+// nothing on desktop. The header is always shown at the very top of the page.
+let lastHeaderScrollY = window.scrollY;
+let headerVisTicking = false;
+function updateHeaderVisibility(){
+  const y = window.scrollY;
+  if (y <= 4) {
+    header.classList.remove('header-hidden');
+  } else if (y > lastHeaderScrollY + 6) {
+    header.classList.add('header-hidden');     // scrolling down
+  } else if (y < lastHeaderScrollY - 6) {
+    header.classList.remove('header-hidden');  // scrolling up
+  }
+  lastHeaderScrollY = y;
+}
+window.addEventListener('scroll', () => {
+  if (!headerVisTicking) {
+    window.requestAnimationFrame(() => { updateHeaderVisibility(); headerVisTicking = false; });
+    headerVisTicking = true;
+  }
+}, {passive:true});
+
 const navObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;

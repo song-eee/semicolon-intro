@@ -81,7 +81,7 @@ section{position:relative;}
 header{
   position:fixed;top:0;left:0;right:0;z-index:900;
   padding:30px 0 20px 30px;
-  transition:background .35s var(--ease),padding-bottom .35s var(--ease);
+  transition:background .35s var(--ease),padding-bottom .35s var(--ease),transform .35s var(--ease);
 }
 header.nav-hero,header.nav-why,header.nav-s2{
   padding-bottom:20px;
@@ -596,6 +596,9 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
   border-bottom:1px solid #EEE;
 }
 .s3-chevron{font-size:14px;color:#111;}
+/* Comment count label: PC shows "댓글 3"; mobile swaps to "댓글 2" (see media query),
+   since the third comment is hidden on mobile. */
+.s3-count-mo{display:none;}
 .s3-comment-list{padding:0 20px;}
 .s3-comment{padding:14px 0;border-top:1px solid #EEE;}
 .s3-comment:first-child{border-top:none;}
@@ -1101,6 +1104,22 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   .trust-text{font-size:1rem;line-height:1.6;}
   .trust-links{margin-top:56px;flex-wrap:wrap;gap:16px;}
   .trust-link{width:100%;max-width:280px;}
+
+  /* s3 comment card on mobile: drop the third comment (비범한 재규어) and show the
+     matching "댓글 2" count instead of "댓글 3". */
+  .s3-comment-list .s3-comment:last-child{display:none;}
+  .s3-count-pc{display:none;}
+  .s3-count-mo{display:inline;}
+
+  /* The fixed header hides while scrolling down and returns on scroll up (class
+     toggled in JS). Only translate on mobile so desktop is unaffected. */
+  header.header-hidden{transform:translateY(-100%);}
+
+  /* With the header hidden on scroll, pull each section's content up to use the
+     freed space at the top (nav is ~73px tall). */
+  .s2{padding-top:56px;}
+  .s3{padding-top:56px;}
+  .s4{padding-top:56px;}
 }
 @media (max-width:560px){
   .counters{flex-wrap:wrap;row-gap:10px;}
