@@ -491,7 +491,7 @@ if (s2Visual && s2BtnWrap) {
 // (and restart the timer so the clicked tab holds for a full interval).
 const s4Tabs = Array.from(document.querySelectorAll('.s4-tab'));
 const s4Panels = document.querySelectorAll('.s4-panel');
-const S4_TAB_INTERVAL = 2000;
+const S4_TAB_INTERVAL = 3000;
 function activateS4Tab(btn){
   s4Tabs.forEach(b => b.classList.remove('active'));
   btn.classList.add('active');

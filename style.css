@@ -673,6 +673,7 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
   border-radius:999px;border:none;
   background:rgba(0,0,0,.05);color:#666;
   cursor:pointer;
+  transition:background .35s var(--ease),color .35s var(--ease);
 }
 .s4-tab.active{background:#484441;color:#fff;font-weight:700;}
 .s4-panel{
@@ -680,6 +681,15 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
   border-radius:30px;
   box-shadow:0 16px 40px rgba(0,0,0,.06);
   padding:40px 20px 20px;
+}
+/* Smooth fade-in each time a panel becomes visible (auto-roll or manual click) */
+.s4-panel:not([hidden]){animation:s4PanelFade .5s var(--ease);}
+@keyframes s4PanelFade{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@media (prefers-reduced-motion:reduce){
+  .s4-panel:not([hidden]){animation:none;}
 }
 .s4-intro{
   font-family:var(--pretendard);font-size:15px;font-weight:400;
