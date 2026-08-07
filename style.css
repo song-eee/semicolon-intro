@@ -886,13 +886,12 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
 .s4-mb-dot{
   position:absolute;transform:translate(-50%,-50%);
   width:20px;height:20px;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#F6F0DE,#E4D9B8);
+  background:#C5B79D;border:2px solid #A49272;   /* opacity randomized per dot in JS */
 }
 .s4-mb-me{position:absolute;transform:translate(-50%,-50%);z-index:3;}
 .s4-mb-me-av{
   width:50px;height:50px;border-radius:50%;
   object-fit:cover;display:block;
-  box-shadow:0 3px 8px rgba(0,0,0,.15);
 }
 .s4-mb-node{
   position:absolute;transform:translate(-50%,-50%);z-index:2;
@@ -909,14 +908,14 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
 .s4-mb-h{margin-top:28px;}
 .s4-mb-hemoji{font-size:16px;line-height:1;}
 
-/* persona card */
+/* persona card — same box style as the 주제별/생각별 list boxes, in green */
 .s4-mb-persona{
   display:flex;gap:14px;align-items:center;
-  background:#159066;border-radius:16px;padding:18px;
+  background:#298B29;border-radius:14px;padding:20px 22px;
 }
 .s4-mb-persona-av{
   flex:0 0 auto;width:56px;height:56px;border-radius:50%;
-  object-fit:cover;display:block;background:#fff;
+  object-fit:cover;display:block;
 }
 .s4-mb-persona p{
   flex:1;margin:0;color:#fff;
@@ -924,8 +923,11 @@ header.scrolled.nav-s2{background:rgba(224,221,210,.1);}
 }
 .s4-mb-persona strong{font-weight:800;}
 
-/* mate blocks */
-.s4-mb-card{margin-bottom:2px;}
+/* mate blocks — wrapped in the same box style as the 주제별/생각별 list boxes */
+.s4-mb-card{
+  background:#fff;border:1px solid #EEE;border-radius:14px;
+  padding:16px 18px;margin-bottom:2px;
+}
 .s4-mb-mate-top{display:flex;gap:14px;align-items:flex-start;margin-bottom:4px;}
 .s4-mb-mate-top .s4-tp-pill{flex:0 0 auto;align-self:flex-start;white-space:nowrap;}
 .s4-mb-pill-gray{background:#EFEDE7;color:#6B6350;}

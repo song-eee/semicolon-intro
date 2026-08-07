@@ -524,6 +524,15 @@ s4Tabs.forEach((btn, i) => {
 });
 if (s4Tabs.length) startS4TabRoll();
 
+// Member map: give each plain thought-dot a random opacity (100/70/50/30%),
+// so the #C5B79D / #A49272 dots read as a scattered field at varied depths.
+(function randomizeMemberDots(){
+  const ops = [1, 0.7, 0.5, 0.3];
+  document.querySelectorAll('.s4-mb-dot').forEach(d => {
+    d.style.opacity = ops[Math.floor(Math.random() * ops.length)];
+  });
+})();
+
 // Section 4 · 생각별 type filters (공감 / 의문 / 분석 / 비판)
 const s4TpFilters = document.querySelectorAll('.s4-tp-filter');
 s4TpFilters.forEach(btn => {
