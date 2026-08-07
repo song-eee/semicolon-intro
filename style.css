@@ -1090,10 +1090,10 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
      reserve the scaled height so the cards below don't get overlapped. */
   .s4-panel{padding:32px 16px 16px;}
   .s4-bubbles{
-    transform:scale(.6);
+    transform:translateY(69px) scale(.6);  /* translate centers the scaled cluster in the taller box */
     transform-origin:top left;
     width:312px;   /* 520 * .6 */
-    height:190px;  /* ~316 * .6 */
+    height:330px;  /* PC is 300px; mobile is 30px taller so the circles get more room */
     margin:0 auto 16px;
   }
   .s4-tp-filters{width:100%;max-width:480px;}
@@ -1120,15 +1120,24 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   .s2{padding-top:56px;}
   .s3{padding-top:56px;}
   .s4{padding-top:56px;}
+
+  /* Section 1: 40px gap between the semicolon mark's visible bottom and the text
+     below (measured at the settled animation state). */
+  .hero-text-group{transform:translate(-50%,73px);}
+
+  /* Tighten teaser headers: badge->title gap -12px (18->6), title->lede gap
+     -20px (28->8). */
+  .s2-badge,.s3-badge,.s4-badge{margin-bottom:6px;}
+  .s2-title,.s3-title,.s4-title{margin-bottom:8px;}
 }
 @media (max-width:560px){
   .counters{flex-wrap:wrap;row-gap:10px;}
 }
 @media (max-width:400px){
-  /* Even narrower phones: scale the bubble cluster down a touch more so it fits */
+  /* Even narrower phones: scale the bubble cluster down a touch more so it fits the
+     width. Height stays 330px (from the 640px rule); the cluster is centered in it. */
   .s4-bubbles{
-    transform:scale(.5);
+    transform:translateY(85px) scale(.5);
     width:260px;   /* 520 * .5 */
-    height:158px;  /* ~316 * .5 */
   }
 }

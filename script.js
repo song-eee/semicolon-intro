@@ -446,6 +446,12 @@ if (s2Visual && s2BtnWrap) {
     setTimeout(() => {
       s2BtnWrap.classList.add('bubble-show');
       setTimeout(() => {
+        // Reserve the final text height up front so the box is locked to its final
+        // height while typing, instead of growing line-by-line as characters appear.
+        s2BubbleTextEl.style.minHeight = '';
+        s2BubbleTextEl.textContent = cfg.text;
+        s2BubbleTextEl.style.minHeight = s2BubbleTextEl.offsetHeight + 'px';
+        s2BubbleTextEl.textContent = '';
         const duration = 2000;
         const start = performance.now();
         function tick(now){
