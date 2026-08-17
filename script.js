@@ -643,7 +643,9 @@ function clampS4Panels(force){
   const sectionH = s4.offsetHeight;
   if (!visible || !sectionH) return;
   const max = Math.max(0, sectionH - offsetTopWithin(visible, s4) - S4_PANEL_BOTTOM_GAP);
-  s4Panels.forEach(p => { p.style.maxHeight = max + 'px'; });
+  // max-height 가 아니라 height 로 고정한다. max-height 만 주면 내용이 짧은 탭에서는
+  // 콘텐츠 높이로 줄어들어 탭이 바뀔 때마다 박스 크기가 달라진다.
+  s4Panels.forEach(p => { p.style.height = max + 'px'; p.style.maxHeight = max + 'px'; });
   s4ClampedWidth = window.innerWidth;
 }
 let s4TabIdx = 0;
