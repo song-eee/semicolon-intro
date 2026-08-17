@@ -623,16 +623,28 @@ function activateS4Tab(btn){
 // 패널 자신의 30px 라운딩이 그대로 드러나게 한다.
 // 세 패널은 같은 자리에 겹쳐 있으므로 보이는 패널의 위치를 재서 셋 다에 적용한다.
 const S4_PANEL_BOTTOM_GAP = 20;
-function clampS4Panels(){
+let s4ClampedWidth = null;
+// offsetTop 을 누적해 섹션 기준 위치를 구한다. getBoundingClientRect 와 달리
+// reveal 의 translateY 같은 transform 에 영향받지 않아, 등장 애니메이션 도중에
+// 재도 최종 위치가 나온다.
+function offsetTopWithin(el, ancestor){
+  let y = 0, node = el;
+  while (node && node !== ancestor) { y += node.offsetTop; node = node.offsetParent; }
+  return y;
+}
+function clampS4Panels(force){
   const s4 = document.getElementById('section4');
   if (!s4 || !s4Panels.length) return;
+  // 모바일에서 스크롤로 주소창이 접혔다 펴지면 높이만 바뀌며 resize 가 계속 뜬다.
+  // 그때마다 다시 재면 역스크롤 중에 패널 높이가 줄었다 늘었다 하므로,
+  // 가로폭이 실제로 달라졌을 때(회전 등)만 갱신한다.
+  if (!force && s4ClampedWidth === window.innerWidth) return;
   const visible = s4.querySelector('.s4-panel:not([hidden])');
-  if (!visible) return;
-  const sr = s4.getBoundingClientRect();
-  if (!sr.height) return;
-  const topWithinSection = visible.getBoundingClientRect().top - sr.top;  // 스크롤과 무관
-  const max = Math.max(0, sr.height - topWithinSection - S4_PANEL_BOTTOM_GAP);
+  const sectionH = s4.offsetHeight;
+  if (!visible || !sectionH) return;
+  const max = Math.max(0, sectionH - offsetTopWithin(visible, s4) - S4_PANEL_BOTTOM_GAP);
   s4Panels.forEach(p => { p.style.maxHeight = max + 'px'; });
+  s4ClampedWidth = window.innerWidth;
 }
 let s4TabIdx = 0;
 let s4TabTimer = null;
@@ -652,9 +664,9 @@ s4Tabs.forEach((btn, i) => {
   });
 });
 if (s4Tabs.length) startS4TabRoll();
-clampS4Panels();
-window.addEventListener('load', clampS4Panels);
-window.addEventListener('resize', clampS4Panels);
+clampS4Panels(true);
+window.addEventListener('load', () => clampS4Panels(true));
+window.addEventListener('resize', () => clampS4Panels());
 
 // Member map: give each plain thought-dot a random opacity (100/70/50/30%),
 // so the #C5B79D / #A49272 dots read as a scattered field at varied depths.

@@ -1369,7 +1369,11 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   /* minmax(0,1fr) 이어야 트랙이 콘텐츠 최소폭(=탭 3개 350px) 아래로 줄어든다.
      1fr 은 min-width:auto 라서 탭이 컨테이너를 밀어내고, 그 여파로 타이틀/리드/패널까지
      같이 넓어져 오른쪽이 잘렸다. */
-  .s4-grid{grid-template-columns:minmax(0,1fr);row-gap:36px;}
+  /* 패널을 50px 더 키우기 위해 위쪽 간격에서 그만큼 회수한다:
+     구분선 아래 20px(왼쪽 블록 margin-bottom)은 그대로 두고 row-gap 36 -> 0,
+     탭 아래 여백 20 -> 6. 합쳐서 50px 만큼 패널이 위로 올라간다. */
+  .s4-grid{grid-template-columns:minmax(0,1fr);row-gap:0;}
+  .s4-tabs{margin-bottom:6px;}
   .s4-visual{width:100%;min-width:0;}
   .s5-grid{grid-template-columns:minmax(0,1fr);row-gap:36px;}
   .s5-visual{width:100%;min-width:0;}
