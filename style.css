@@ -777,9 +777,10 @@ header.nav-trust .nav-login{
   display:inline-flex;align-items:center;gap:6px;
   font-family:var(--pretendard);font-size:13px;font-weight:600;color:#888;
 }
+/* 이전에는 CSS 그라디언트로 흉내 낸 원이었고, 지금은 실제 아이콘 이미지를 쓴다 */
 .s4-stat-icon{
-  width:14px;height:14px;border-radius:50%;
-  background:linear-gradient(135deg,#00BF96 50%,#FF5100 50%);
+  width:20px;height:20px;
+  background:url("assets/ic_th.png") center/contain no-repeat;
   flex:0 0 auto;
 }
 .s4-stats-right{display:flex;align-items:center;gap:10px;}
@@ -1423,13 +1424,19 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   .s4-bubble-bl{width:100px;height:100px;left:calc(100% - 100px);top:0;font-size:10px;}
   .s4-bubble-br{width:100px;height:100px;left:calc(100% - 100px);top:100px;font-size:10px;}
 
-  .s4-tp-filters{width:100%;max-width:480px;}
-  /* 생각별: PC 처럼 정확히 3줄만. 줄바꿈을 막고, 좁아진 폭에서 넘치는 뒤쪽 타일은 감춘다.
-     1줄은 타일 2개를 지운 뒤 165px 라 그대로 다 들어간다 (2줄 5개 205px / 3줄 4개 271px,
-     패널 내부 폭 303px) */
+  /* 유형 필터부터 그 아래 요소 전체를 10px 위로 (원래 margin-top:4px) */
+  .s4-tp-filters{width:100%;max-width:480px;margin-top:-6px;}
+  /* 생각별: PC 처럼 정확히 3줄만. 줄바꿈을 막고 모바일에서 뺄 타일을 감춘다.
+     1줄은 3번째(주황 원 + 화살표 3개)만 빼고 3개 = 165px,
+     2줄은 뒤쪽 1개를 빼고 5개 = 205px,
+     3줄은 파란 원/주황 원 이후를 모두 빼고 2개 = 201px. (패널 내부 폭 303px) */
   .s4-tp-row{flex-wrap:nowrap;}
+  .s4-tp-row:nth-child(1) > :nth-child(3),
   .s4-tp-row:nth-child(2) > :nth-child(n+6),
-  .s4-tp-row:nth-child(3) > :nth-child(n+5){display:none;}
+  .s4-tp-row:nth-child(3) > :nth-child(n+3){display:none;}
+
+  /* 멤버별: '나의 소셜 리딩 페르소나는?' 부터 그 아래 전체를 20px 위로 (원래 28px) */
+  .s4-panel-member .s4-mb-h:first-of-type{margin-top:8px;}
 
   /* 멤버별: 일반 점 20개 중 7개를 숨겨 200px 로 좁아진 영역의 밀도를 낮춘다
      (뭉쳐 있는 짝에서 하나씩 골라 분포는 그대로 유지) */
