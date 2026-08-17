@@ -941,7 +941,7 @@ header.nav-trust .nav-login{
 .s4-panel-member{overflow:visible;}
 
 /* thought-distance map: a scatter of thought dots with a few member avatars */
-.s4-mb-map{position:relative;width:100%;height:300px;margin:0 0 6px;}
+.s4-mb-map{position:relative;width:100%;height:280px;margin:0 0 6px;}
 .s4-mb-dot{
   position:absolute;transform:translate(-50%,-50%);
   width:20px;height:20px;border-radius:50%;
@@ -981,6 +981,8 @@ header.nav-trust .nav-login{
 
 /* section headings for the member panel */
 .s4-mb-h{margin-top:28px;font-size:17px;}   /* 2px larger than the base 15px */
+/* '나의 소셜 리딩 페르소나는?' 부터 그 아래 전체를 30px 위로 (28 - 30) */
+.s4-panel-member .s4-mb-h:first-of-type{margin-top:-2px;}
 .s4-mb-hemoji{font-size:16px;line-height:1;}
 .s4-mb-hicon-img{width:30px;height:30px;object-fit:contain;display:inline-block;flex:0 0 auto;}
 
@@ -1337,6 +1339,9 @@ header.nav-trust .nav-login{
 /* ===== Footer ===== */
 footer{
   background:#060907;color:#8B8778;padding:44px 0;
+  /* 카피라이트 문구를 50px 위로. 마지막 섹션 하단 여백 위로 겹쳐 올라가는데
+     두 배경색(#000 / #060907)이 사실상 같아 이음매가 보이지 않는다. */
+  margin-top:-50px;
 }
 footer .container{
   text-align:center;
@@ -1449,8 +1454,11 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   .s4-mb-dot:nth-of-type(15),
   .s4-mb-dot:nth-of-type(18){display:none;}
 
-  /* 마지막 페이지 로고 3종은 가로가 아니라 세로로 쌓는다 */
-  .trust-logos{flex-direction:column;}
+  /* 마지막 페이지 로고 3종은 가로가 아니라 세로로 쌓고, 시작 지점을 40px 내린다 */
+  .trust-logos{flex-direction:column;margin-top:40px;}
+
+  /* 푸터 끌어올림은 PC 전용 */
+  footer{margin-top:0;}
 
   /* Trust: no longer forced onto one line; stack the CTA buttons */
   .trust .container{padding-left:24px;padding-right:24px;}
@@ -1482,9 +1490,11 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
 
   /* 4개 티저 섹션(혼자 읽기 / 함께 읽기 / 소셜 인사이트 / 아카이빙):
      태그·타이틀·서브 텍스트를 가운데 정렬하고, 아래 영역과 1px 선으로 구분한다 */
+  /* 텍스트 그룹 -> 구분선 40px, 구분선 -> 아래 영역은 기존 간격 + 20px */
   .s2-left,.s3-left,.s4-left,.s5-left{
     text-align:center;
-    padding-bottom:20px;
+    padding-bottom:40px;
+    margin-bottom:20px;
     border-bottom:1px solid rgba(0,0,0,.1);
   }
   /* 좌우 여백 20px 고정 — 기본값 clamp(20px,5vw,64px) 은 넓은 모바일에서 20px 을 넘는다 */
