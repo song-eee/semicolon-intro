@@ -622,7 +622,7 @@ function activateS4Tab(btn){
 // 섹션 하단에서 S4_PANEL_BOTTOM_GAP 만큼 위에서 끝나도록 높이를 제한해,
 // 패널 자신의 30px 라운딩이 그대로 드러나게 한다.
 // 세 패널은 같은 자리에 겹쳐 있으므로 보이는 패널의 위치를 재서 셋 다에 적용한다.
-const S4_PANEL_BOTTOM_GAP = 20;
+const S4_PANEL_BOTTOM_GAP = 36;   /* 박스 높이를 16px 줄이기 위해 20 -> 36 */
 let s4ClampedWidth = null;
 // offsetTop 을 누적해 섹션 기준 위치를 구한다. getBoundingClientRect 와 달리
 // reveal 의 translateY 같은 transform 에 영향받지 않아, 등장 애니메이션 도중에

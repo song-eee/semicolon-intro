@@ -1504,8 +1504,11 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   }
 
   /* 항상 떠 있는 62px 헤더 아래로 콘텐츠가 들어가지 않도록 상단 여백 확보 */
-  .s2{padding-top:68px;}
-  .s3{padding-top:68px;}
+  /* 본문 이미지가 섹션을 14px 넘기고 있어, 이미지 아래 60px 을 두려면 +74px */
+  .s2{padding-top:68px;height:calc(100vh + 74px);height:calc(100svh + 74px);}
+  /* 댓글 카드는 absolute 라 섹션 높이에 안 잡힌다. 다 펼쳐지면 아래가 133px
+     잘리므로, 카드 아래 20px 이 남도록 아래 여백을 늘린다. */
+  .s3{padding-top:68px;padding-bottom:169px;}
   /* 박스를 키우는 만큼 섹션 자체를 늘린다 — 위쪽 여백은 그대로 두고 늘어난 높이가
      전부 박스로 간다 (박스 높이는 JS 가 섹션 높이에서 역산).
      +224 = 박스 확대분 200(60+80+60) + 위쪽 여백 순증가분 24 */
