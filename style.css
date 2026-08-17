@@ -416,7 +416,7 @@ header.nav-trust .nav-login{
   position:absolute;
   z-index:3;
   left:calc(51.603% + 10px);
-  top:21.153%;   /* 두번째 하이라이트(19.452%) 아래 10px */
+  top:16.422%;   /* 두번째 하이라이트와 같은 높이에서 시작 — 그 오른쪽에 붙는다 */
   width:40px;height:40px;
   opacity:0;
   transition:opacity .3s ease;
@@ -571,7 +571,7 @@ header.nav-trust .nav-login{
   position:absolute;
   z-index:3;
   left:calc(51.603% + 10px);
-  top:21.153%;   /* 두번째 하이라이트(19.452%) 아래 10px */
+  top:16.422%;   /* 두번째 하이라이트와 같은 높이에서 시작 — 그 오른쪽에 붙는다 */
   width:310px;
   background:#fff;
   border-radius:12px;
@@ -1003,7 +1003,7 @@ header.nav-trust .nav-login{
 .s4-mb-persona-av{
   flex:0 0 auto;width:56px;height:56px;border-radius:50%;
   object-fit:cover;display:block;
-  border:6px solid #fff;   /* 3px 에서 3px 더 두껍게 */
+  border:4px solid #fff;
 }
 .s4-mb-persona p{
   flex:1;margin:0;color:#fff;
