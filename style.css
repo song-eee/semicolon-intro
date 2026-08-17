@@ -1380,7 +1380,8 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
      구분선 아래 20px(왼쪽 블록 margin-bottom)은 그대로 두고 row-gap 36 -> 0,
      탭 아래 여백 20 -> 6. 합쳐서 50px 만큼 패널이 위로 올라간다. */
   .s4-grid{grid-template-columns:minmax(0,1fr);row-gap:0;}
-  .s4-tabs{margin-bottom:26px;}   /* 탭 -> 박스 간격 6 + 20 */
+  .s4-grid{row-gap:10px;}          /* 구분선 -> 탭 간격 (왼쪽 블록 margin 20 + 10 = 30) */
+  .s4-tabs{margin-bottom:20px;}    /* 탭 -> 박스 간격 */
   .s4-visual{width:100%;min-width:0;}
   .s5-grid{grid-template-columns:minmax(0,1fr);row-gap:36px;}
   .s5-visual{width:100%;min-width:0;}
@@ -1507,8 +1508,8 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   .s3{padding-top:68px;}
   /* 박스를 키우는 만큼 섹션 자체를 늘린다 — 위쪽 여백은 그대로 두고 늘어난 높이가
      전부 박스로 간다 (박스 높이는 JS 가 섹션 높이에서 역산).
-     +160 = 박스 확대분 140(60+80) + 탭 아래 여백 확대분 20 */
-  .s4{padding-top:68px;height:calc(100vh + 160px);height:calc(100svh + 160px);}
+     +224 = 박스 확대분 200(60+80+60) + 위쪽 여백 순증가분 24 */
+  .s4{padding-top:68px;height:calc(100vh + 224px);height:calc(100svh + 224px);}
 
   /* 4개 티저 섹션(혼자 읽기 / 함께 읽기 / 소셜 인사이트 / 아카이빙):
      태그·타이틀·서브 텍스트를 가운데 정렬하고, 아래 영역과 1px 선으로 구분한다 */
