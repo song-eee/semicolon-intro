@@ -296,7 +296,7 @@ const HERO_LINE_MIN = 24;
 const HERO_LINE_MARGIN_PC = 50;
 const HERO_LINE_MARGIN_MO = 20;
 function heroLineMargin(){
-  return window.matchMedia('(max-width:640px)').matches ? HERO_LINE_MARGIN_MO : HERO_LINE_MARGIN_PC;
+  return window.matchMedia('(max-width:900px)').matches ? HERO_LINE_MARGIN_MO : HERO_LINE_MARGIN_PC;
 }
 const heroLines = document.querySelectorAll('.hero-line');
 // 히어로에서 번갈아 도는 문구 (0번이 마크업의 초기 문구)

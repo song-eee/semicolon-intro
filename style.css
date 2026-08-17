@@ -1386,17 +1386,12 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   .s4-grid{row-gap:10px;}          /* 구분선 -> 탭 간격 (왼쪽 블록 margin 20 + 10 = 30) */
   .s4-tabs{margin-bottom:20px;}    /* 탭 -> 박스 간격 */
 
-  /* 세로로 쌓이는 구간에서는 박스가 넓어지는데, 고정폭인 두 요소가 왼쪽에 붙어
-     비어 보인다. 가운데로 모아준다. (모바일은 아래 640px 블록에서 따로 처리) */
-  .s4-bubbles{margin:0 auto 24px;}
-  .s4-tp-filters{margin-left:auto;margin-right:auto;}
-  /* 이 구간의 박스 높이 +60px */
-  .s4{height:calc(100vh + 60px);height:calc(100svh + 60px);}
   .s4-visual{width:100%;min-width:0;}
   .s5-grid{grid-template-columns:minmax(0,1fr);row-gap:36px;}
   .s5-visual{width:100%;min-width:0;}
 }
-@media (max-width:640px){
+/* 세로로 쌓이는 구간(<=900px)은 모바일과 동일한 구성으로 노출한다 */
+@media (max-width:900px){
   /* Section titles/ledes: let them wrap and shrink instead of overflowing the screen */
   .s2-title,.s3-title,.s4-title,.s5-title{
     font-size:clamp(30px,calc(8vw + 2px),52px);
