@@ -104,7 +104,7 @@ header.scrolled.nav-s4,header.scrolled.nav-s5{background:rgba(224,221,210,.1);}
   display:inline-flex;align-items:center;justify-content:center;
   width:100px;height:42px;
   border:1px solid rgba(255,255,255,.3);border-radius:16px;
-  background:rgba(0,0,0,.9);
+  background:rgba(0,0,0,.4);
   font-family:var(--pretendard);font-weight:600;font-size:16px;
   color:#ffffff;white-space:nowrap;
   cursor:pointer;padding:0;
@@ -337,6 +337,9 @@ header.nav-trust .nav-login{
 }
 .why-sub.c-connect{color:#0090FF;}
 .why-sub.c-expand{color:#FF5100;}
+/* 모바일에서만 살아나는 줄바꿈 — 데스크톱은 기존 2줄, 모바일은 3줄로 끊어
+   한 줄이 짧아진 만큼 글자를 더 키울 수 있다. (fitWhySub 가 이 display 를 보고 줄을 센다) */
+.br-mo{display:none;}
 
 /* ===== Section 2: Solo reading teaser ===== */
 .s2 .container{max-width:1028px;}
@@ -1459,6 +1462,9 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   /* Section 1: 20px gap between the semicolon mark's visible bottom and the text
      below (measured at the settled animation state). */
   .hero-text-group{transform:translate(-50%,53px);}
+
+  /* Section 2 서브 문구: 모바일에서는 3줄로 끊는다 */
+  .br-mo{display:inline;}
 
   /* Teaser headers: badge->title gap 12px, title->lede gap 14px. */
   .s2-badge,.s3-badge,.s4-badge,.s5-badge{margin-bottom:12px;}

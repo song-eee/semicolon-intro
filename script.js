@@ -159,9 +159,26 @@ const WHY_SUB_MARGIN = 30;
 const whySubEl = document.getElementById('why-sub');
 const whySubCanvas = document.createElement('canvas');
 const whySubCtx = whySubCanvas.getContext('2d');
+// 실제로 줄바꿈으로 동작하는 <br> 만 기준으로 줄을 나눈다.
+// 모바일 전용 <br class="br-mo"> 는 데스크톱에서 display:none 이라 줄이 아니라 공백으로 센다.
+function whySubParts(){
+  const parts = [];
+  let cur = '';
+  whySubEl.childNodes.forEach(node => {
+    if (node.nodeName === 'BR') {
+      if (getComputedStyle(node).display === 'none') { cur += ' '; return; }
+      parts.push(cur);
+      cur = '';
+    } else {
+      cur += node.textContent;
+    }
+  });
+  parts.push(cur);
+  return parts.map(s => s.trim()).filter(Boolean);
+}
 function fitWhySub(){
   if (!whySubEl) return;
-  const parts = whySubEl.innerHTML.split(/<br\s*\/?>/i).map(s => s.trim());
+  const parts = whySubParts();
   const cs = getComputedStyle(whySubEl);
   whySubCtx.font = `${cs.fontWeight} ${WHY_SUB_MAX}px ${cs.fontFamily}`;
   let widest = 0;
@@ -275,7 +292,12 @@ if (whyReadWrap && whyHighlight && whyConnectWrap && whyExpandWrap) {
 // Hero title responsive sizing: shrink with viewport, but never closer than 50px to either edge
 const HERO_LINE_MAX = 70;
 const HERO_LINE_MIN = 24;
-const HERO_LINE_MARGIN = 50;
+// 모바일에서는 좌우 여백을 줄여 같은 화면 폭에서 글자를 더 크게 쓴다
+const HERO_LINE_MARGIN_PC = 50;
+const HERO_LINE_MARGIN_MO = 20;
+function heroLineMargin(){
+  return window.matchMedia('(max-width:640px)').matches ? HERO_LINE_MARGIN_MO : HERO_LINE_MARGIN_PC;
+}
 const heroLines = document.querySelectorAll('.hero-line');
 // 히어로에서 번갈아 도는 문구 (0번이 마크업의 초기 문구)
 // typed:true 인 문구는 줄 단위 페이드 대신 한 글자씩 차례로 나타난다.
@@ -296,7 +318,7 @@ function fitHeroText(){
     const w = heroFitCtx.measureText(text).width;
     if (w > widest) widest = w;
   }));
-  const maxAllowed = window.innerWidth - HERO_LINE_MARGIN * 2;
+  const maxAllowed = window.innerWidth - heroLineMargin() * 2;
   let fontSize = HERO_LINE_MAX;
   if (widest > maxAllowed) {
     fontSize = Math.max(HERO_LINE_MIN, HERO_LINE_MAX * (maxAllowed / widest));
