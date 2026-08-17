@@ -1408,14 +1408,14 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
      percentage-based highlight overlays (measured against that taller box) slide
      down off the highlighted lines. Float it left-aligned, just below the
      highlighted lines, sized to fit the viewport so it doesn't hang off the edge. */
-  .s3-comments{left:0;top:15%;width:min(320px,calc(100vw - 28px));}
+  .s3-comments{left:0;top:calc(15% + 30px);width:min(320px,calc(100vw - 28px));}
 
   /* s2 tag bubble: move it left-aligned and just below the highlighted lines so it
      doesn't cover them, and let it grow with its content. The tags row is normally
      pinned to the bottom of a fixed-height box; with the box now auto-height it would
      land on top of the wrapped text, so put the tags back into normal flow (text then
      tags, matching the PC layout). */
-  .s2-visual .s2-btn-wrap{left:0;top:15%;}
+  .s2-visual .s2-btn-wrap{left:0;top:calc(15% + 30px);}
   /* Keep the box wide enough that the 4 fixed-width tags (4x60 + 3x5 gap = 255px)
      always fit on one line, even on ~360px phones: box up to 320px but never wider
      than the viewport minus a small margin, with slightly tighter padding so the
