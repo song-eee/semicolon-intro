@@ -1414,21 +1414,43 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
      drift reads the element's live size as its bounds, so the circles bounce off the
      real (panel-wide) edges. */
   .s4-panel{padding:32px 16px 16px;}
+
+  /* 세 탭의 인포그래픽 영역 높이를 모두 200px 로 통일 */
   .s4-bubbles{
     width:100%;
-    height:300px;
+    height:200px;
     margin:20px auto;
     transform:none;
   }
-  /* Responsive circles (vw keeps them square), sized to fit their text at a 10px
-     font, spread across the panel-wide area; the drift fills the rest. */
-  .s4-bubble-tl{width:30vw;height:30vw;left:2%;top:4px;font-size:10px;}
-  .s4-bubble-tr{width:24vw;height:24vw;left:70%;top:8px;font-size:10px;}
-  .s4-bubble-center{width:36vw;height:36vw;left:29%;top:90px;font-size:10px;}
-  .s4-bubble-bl{width:30vw;height:30vw;left:2%;top:188px;font-size:10px;}
-  .s4-bubble-br{width:30vw;height:30vw;left:66%;top:190px;font-size:10px;}
+  .s4-mb-map{height:200px;}
+  /* 패딩 94px + 타일 3줄(30px*3 + 8px*2 = 106px) = 200px */
+  .s4-tp-map{height:200px;padding:47px 0;}
+
+  /* 주제별: 큰 원 3개(중앙/좌하/우하)만 남긴다 */
+  .s4-bubble-tl,.s4-bubble-tr{display:none;}
+  /* 남은 3개는 200px 안에서 서로 부딪히며 떠다닐 수 있는 크기로 줄인다.
+     min() 상한이 없으면 넓은 모바일 폭에서 원 2개를 세로로 못 담아 계속 밀려난다. */
+  .s4-bubble-center{width:min(29vw,120px);height:min(29vw,120px);left:0;top:45px;font-size:10px;}
+  .s4-bubble-bl{width:min(23vw,96px);height:min(23vw,96px);left:40%;top:5px;font-size:10px;}
+  .s4-bubble-br{width:min(23vw,96px);height:min(23vw,96px);left:40%;top:105px;font-size:10px;}
+
   .s4-tp-filters{width:100%;max-width:480px;}
-  .s4-tp-row{flex-wrap:wrap;}
+  /* 생각별: PC 처럼 정확히 3줄만. 줄바꿈을 막고, 좁아진 폭에서 넘치는 뒤쪽 타일은 감춘다
+     (1줄 4개 / 2줄 5개 / 3줄 4개 = 각각 294 / 205 / 271px, 패널 내부 폭 303px) */
+  .s4-tp-row{flex-wrap:nowrap;}
+  .s4-tp-row:nth-child(1) > :nth-child(n+5),
+  .s4-tp-row:nth-child(2) > :nth-child(n+6),
+  .s4-tp-row:nth-child(3) > :nth-child(n+5){display:none;}
+
+  /* 멤버별: 일반 점 20개 중 7개를 숨겨 200px 로 좁아진 영역의 밀도를 낮춘다
+     (뭉쳐 있는 짝에서 하나씩 골라 분포는 그대로 유지) */
+  .s4-mb-dot:nth-of-type(2),
+  .s4-mb-dot:nth-of-type(5),
+  .s4-mb-dot:nth-of-type(7),
+  .s4-mb-dot:nth-of-type(10),
+  .s4-mb-dot:nth-of-type(13),
+  .s4-mb-dot:nth-of-type(15),
+  .s4-mb-dot:nth-of-type(18){display:none;}
 
   /* Trust: no longer forced onto one line; stack the CTA buttons */
   .trust .container{padding-left:24px;padding-right:24px;}

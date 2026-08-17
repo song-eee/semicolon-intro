@@ -677,9 +677,15 @@ s4TpFilters.forEach(btn => {
 // Section 4 bubble cluster: gentle random drift, bouncing off each other and the 520x300 bounds
 const s4BubblesEl = document.querySelector('.s4-bubbles');
 if (s4BubblesEl) {
-  const bubbleEls = Array.from(s4BubblesEl.querySelectorAll('.s4-bubble'));
+  // 모바일에서 display:none 인 원(작은 2개)은 물리 계산에서 제외한다 —
+  // 반지름 0 으로 섞이면 충돌 판정만 어지럽히고 화면에는 나오지 않는다.
+  // offsetWidth 가 아니라 자기 자신의 computed display/width 를 보는 이유: 스크립트가
+  // 도는 시점에 주제별 패널이 숨겨져 있으면 offsetWidth 는 전부 0 이라 원이 하나도
+  // 안 남는다. computed 값은 패널이 숨겨져 있어도 제대로 나온다.
+  const bubbleEls = Array.from(s4BubblesEl.querySelectorAll('.s4-bubble'))
+    .filter(el => getComputedStyle(el).display !== 'none');
   const balls = bubbleEls.map(el => {
-    const r = el.offsetWidth / 2;
+    const r = (parseFloat(getComputedStyle(el).width) || el.offsetWidth) / 2;
     const left = parseFloat(el.style.left || getComputedStyle(el).left);
     const top = parseFloat(el.style.top || getComputedStyle(el).top);
     const speed = 0.25 + Math.random() * 0.25;
