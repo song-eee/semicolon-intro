@@ -416,7 +416,7 @@ header.nav-trust .nav-login{
   position:absolute;
   z-index:3;
   left:calc(51.603% + 10px);
-  top:calc(18.979% - 20px);
+  top:21.153%;   /* 두번째 하이라이트(19.452%) 아래 10px */
   width:40px;height:40px;
   opacity:0;
   transition:opacity .3s ease;
@@ -571,7 +571,7 @@ header.nav-trust .nav-login{
   position:absolute;
   z-index:3;
   left:calc(51.603% + 10px);
-  top:calc(18.979% - 20px);
+  top:21.153%;   /* 두번째 하이라이트(19.452%) 아래 10px */
   width:310px;
   background:#fff;
   border-radius:12px;
