@@ -1003,7 +1003,7 @@ header.nav-trust .nav-login{
 .s4-mb-persona-av{
   flex:0 0 auto;width:56px;height:56px;border-radius:50%;
   object-fit:cover;display:block;
-  border:3px solid #fff;
+  border:6px solid #fff;   /* 3px 에서 3px 더 두껍게 */
 }
 .s4-mb-persona p{
   flex:1;margin:0;color:#fff;
