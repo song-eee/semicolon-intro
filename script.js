@@ -17,11 +17,17 @@ const header = document.querySelector('header');
 const navSections = [
   {el: document.getElementById('hero'), cls: 'nav-hero'},
   {el: document.getElementById('why'), cls: 'nav-why'},
-  {el: document.getElementById('section2'), cls: 'nav-s2'}
+  {el: document.getElementById('section2'), cls: 'nav-s2'},
+  {el: document.getElementById('section3'), cls: 'nav-s3'},
+  {el: document.getElementById('section4'), cls: 'nav-s4'},
+  {el: document.getElementById('section5'), cls: 'nav-s5'},
+  {el: document.getElementById('trust'), cls: 'nav-trust'}
 ].filter(s => s.el);
 const logoImg = document.querySelector('.logo-img');
 const LOGO_DEFAULT = 'assets/logo.png';
 const LOGO_S2 = 'assets/logo-black.png';
+// 배경이 어두운 구간에서는 흰 로고, 크림색 구간(s2~s5)에서는 검은 로고
+const LOGO_LIGHT_NAVS = ['nav-hero', 'nav-why', 'nav-trust'];
 function updateHeaderScrolled(){
   header.classList.toggle('scrolled', window.scrollY > 0);
 }
@@ -58,7 +64,7 @@ const navObserver = new IntersectionObserver((entries) => {
     if (!match) return;
     navSections.forEach(s => header.classList.remove(s.cls));
     header.classList.add(match.cls);
-    if (logoImg) logoImg.src = match.cls === 'nav-s2' ? LOGO_S2 : LOGO_DEFAULT;
+    if (logoImg) logoImg.src = LOGO_LIGHT_NAVS.includes(match.cls) ? LOGO_DEFAULT : LOGO_S2;
   });
 }, {threshold:0.5});
 navSections.forEach(s => navObserver.observe(s.el));
@@ -271,17 +277,25 @@ const HERO_LINE_MAX = 70;
 const HERO_LINE_MIN = 24;
 const HERO_LINE_MARGIN = 50;
 const heroLines = document.querySelectorAll('.hero-line');
+// 히어로에서 번갈아 도는 문구 (0번이 마크업의 초기 문구)
+// typed:true 인 문구는 줄 단위 페이드 대신 한 글자씩 차례로 나타난다.
+const HERO_PHRASES = [
+  {lines: ['혼자 읽고 마치던 생각을', '같이 이어나갑니다']},
+  {lines: ['소셜 리딩 커뮤니티,', '세미콜론.'], typed: true}
+];
 const heroFitCanvas = document.createElement('canvas');
 const heroFitCtx = heroFitCanvas.getContext('2d');
 function fitHeroText(){
   if (!heroLines.length) return;
   const sample = getComputedStyle(heroLines[0]);
   heroFitCtx.font = `${sample.fontWeight} ${HERO_LINE_MAX}px ${sample.fontFamily}`;
+  // 화면에 떠 있는 문구가 아니라 롤링되는 모든 문구를 함께 재서, 문구가 바뀌어도
+  // 글자 크기가 튀지 않게 한다.
   let widest = 0;
-  heroLines.forEach(line => {
-    const w = heroFitCtx.measureText(line.textContent).width;
+  HERO_PHRASES.forEach(phrase => phrase.lines.forEach(text => {
+    const w = heroFitCtx.measureText(text).width;
     if (w > widest) widest = w;
-  });
+  }));
   const maxAllowed = window.innerWidth - HERO_LINE_MARGIN * 2;
   let fontSize = HERO_LINE_MAX;
   if (widest > maxAllowed) {
@@ -290,13 +304,17 @@ function fitHeroText(){
   heroLines.forEach(line => { line.style.fontSize = fontSize + 'px'; });
 
   // Canvas-measured width can drift slightly from actual layout; correct once against real render.
-  let actualWidest = 0;
+  // 지금 떠 있는 문구의 (실제 폭 / 캔버스 예측 폭)을 보정 계수로 삼아 가장 긴 문구의
+  // 실제 폭을 역산한다 — 짧은 문구가 떠 있는 동안 리사이즈돼도 보정이 정확하다.
+  let actualCurrent = 0, canvasCurrent = 0;
   heroLines.forEach(line => {
-    const w = line.getBoundingClientRect().width;
-    if (w > actualWidest) actualWidest = w;
+    actualCurrent = Math.max(actualCurrent, line.getBoundingClientRect().width);
+    canvasCurrent = Math.max(canvasCurrent, heroFitCtx.measureText(line.textContent).width);
   });
-  if (actualWidest > maxAllowed) {
-    fontSize = Math.max(HERO_LINE_MIN, fontSize * (maxAllowed / actualWidest));
+  if (!canvasCurrent || !actualCurrent) return;
+  const projectedWidest = actualCurrent * (widest / canvasCurrent);
+  if (projectedWidest > maxAllowed) {
+    fontSize = Math.max(HERO_LINE_MIN, fontSize * (maxAllowed / projectedWidest));
     heroLines.forEach(line => { line.style.fontSize = fontSize + 'px'; });
   }
 }
@@ -329,6 +347,73 @@ const heroDot = document.getElementById('hero-dot');
 const heroColon = document.getElementById('hero-colon');
 const heroLine1 = document.getElementById('hero-line-1');
 const heroLine2 = document.getElementById('hero-line-2');
+const heroTextGroup = document.querySelector('.hero-text-group');
+
+// 3) 인트로가 다 뜬 뒤부터는 두 문구를 번갈아 롤링한다.
+//    (한 문구가 머무는 시간 HOLD, 교체는 페이드 아웃 -> 텍스트 교체 -> 페이드 인)
+const HERO_INTRO_MS = 2000;   // 1번 줄 -> 2번 줄 등장 간격
+const HERO_ROLL_FADE = 800;   // CSS .rolling 의 opacity transition 과 동일
+const HERO_ROLL_HOLD = 2000;  // 문구가 완전히 뜬 뒤 다음 문구로 넘어가기까지
+const HERO_TYPE_MS = 2000;    // 타이핑 문구가 전부 드러나는 데 걸리는 시간
+const HERO_CHAR_FADE = 500;   // 글자 하나가 켜지는 시간 (CSS .hero-char transition 과 동일)
+
+let heroTypeTimers = [];
+function clearHeroTyping(){
+  heroTypeTimers.forEach(clearTimeout);
+  heroTypeTimers = [];
+}
+
+// 두 줄을 글자 span 으로 미리 깔아두고 순서대로 켠다.
+// 첫 글자가 0ms, 마지막 글자가 HERO_TYPE_MS 에 '다 보이도록' 간격을 역산한다.
+function showHeroTyped(lines, done){
+  const chars = [];
+  [heroLine1, heroLine2].forEach((line, i) => {
+    line.textContent = '';
+    Array.from(lines[i]).forEach(ch => {
+      const span = document.createElement('span');
+      span.className = 'hero-char';
+      span.textContent = ch === ' ' ? '\u00A0' : ch;   // 공백이 접히지 않도록 nbsp
+      line.appendChild(span);
+      chars.push(span);
+    });
+  });
+  heroTextGroup.classList.add('typing');
+  heroLine1.classList.add('show');
+  heroLine2.classList.add('show');
+  const gap = chars.length > 1 ? (HERO_TYPE_MS - HERO_CHAR_FADE) / (chars.length - 1) : 0;
+  chars.forEach((span, i) => {
+    heroTypeTimers.push(setTimeout(() => span.classList.add('on'), gap * i));
+  });
+  heroTypeTimers.push(setTimeout(() => {
+    heroTextGroup.classList.remove('typing');
+    done();
+  }, HERO_TYPE_MS));
+}
+
+function showHeroFaded(lines, done){
+  heroLine1.textContent = lines[0];
+  heroLine2.textContent = lines[1];
+  heroLine1.classList.add('show');
+  heroLine2.classList.add('show');
+  heroTypeTimers.push(setTimeout(done, HERO_ROLL_FADE));
+}
+
+let heroPhraseIdx = 0;
+function rollHeroPhrase(){
+  clearHeroTyping();
+  heroPhraseIdx = (heroPhraseIdx + 1) % HERO_PHRASES.length;
+  const phrase = HERO_PHRASES[heroPhraseIdx];
+  heroLine1.classList.remove('show');
+  heroLine2.classList.remove('show');
+  heroTypeTimers.push(setTimeout(() => {
+    const holdThenRoll = () => {
+      heroTypeTimers.push(setTimeout(rollHeroPhrase, HERO_ROLL_HOLD));
+    };
+    if (phrase.typed) showHeroTyped(phrase.lines, holdThenRoll);
+    else showHeroFaded(phrase.lines, holdThenRoll);
+  }, HERO_ROLL_FADE));
+}
+
 if (heroDot && heroColon && heroLine1 && heroLine2) {
   heroDot.classList.add('show');
   heroLine1.classList.add('show');
@@ -336,7 +421,11 @@ if (heroDot && heroColon && heroLine1 && heroLine2) {
     heroDot.classList.add('risen');
     heroColon.classList.add('show');
     heroLine2.classList.add('show');
-  }, 2000);
+    setTimeout(() => {
+      if (heroTextGroup) heroTextGroup.classList.add('rolling');
+      rollHeroPhrase();
+    }, 1000 + HERO_ROLL_HOLD);   // 2번 줄 페이드인(1s)이 끝난 뒤부터 hold 시작
+  }, HERO_INTRO_MS);
 }
 
 // Hero background video sequence with crossfade — 4s per clip.
@@ -526,12 +615,33 @@ if (s4Tabs.length) startS4TabRoll();
 
 // Member map: give each plain thought-dot a random opacity (100/70/50/30%),
 // so the #C5B79D / #A49272 dots read as a scattered field at varied depths.
-(function randomizeMemberDots(){
+// The float animation itself lives in CSS (@keyframes mbFloat) — here we only
+// desync it: a random period plus a negative delay so each dot starts mid-cycle.
+(function randomizeMemberMap(){
   const ops = [1, 0.7, 0.5, 0.3];
   document.querySelectorAll('.s4-mb-dot').forEach(d => {
     d.style.opacity = ops[Math.floor(Math.random() * ops.length)];
   });
+  // 점 20개 + 나 아바타 + 노드 4개 = 25개 모두 서로 다른 주기/위상으로 떠 있게
+  document.querySelectorAll('.s4-mb-dot, .s4-mb-me, .s4-mb-node').forEach(el => {
+    el.style.setProperty('--float-dur', (3.6 + Math.random() * 2.8).toFixed(2) + 's');
+    el.style.setProperty('--float-delay', (-Math.random() * 6).toFixed(2) + 's');
+  });
 })();
+
+// 생각별 지도의 좋아요/보관 뱃지: 지도가 처음 화면에 들어온 순간 8개가 한 번에 팝인.
+// 패널이 display:none인 동안에는 교차하지 않으므로, 탭이 실제로 보인 첫 시점에 발동한다.
+const tpMap = document.querySelector('.s4-tp-map');
+if (tpMap) {
+  const tpMapObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      tpMap.classList.add('badges-in');
+      obs.disconnect();   // 처음 한 번만
+    });
+  }, {threshold:0.3});
+  tpMapObserver.observe(tpMap);
+}
 
 // Section 4 · 생각별 type filters (공감 / 의문 / 분석 / 비판)
 const s4TpFilters = document.querySelectorAll('.s4-tp-filter');
@@ -610,29 +720,9 @@ if (s4BubblesEl) {
   requestAnimationFrame(stepS4Bubbles);
 }
 
-// Section 4 height matches section 3's natural height; trust section matches section 4's
-function syncS4Height(){
-  const s3 = document.getElementById('section3');
-  const s4 = document.getElementById('section4');
-  const trust = document.getElementById('trust');
-  if (!s3 || !s4) return;
-  // On mobile the panels (특히 생각별 / 멤버별) are taller than section 3, so clamping
-  // to its height would clip them. Let the sections size to their own content instead.
-  if (window.matchMedia('(max-width:640px)').matches) {
-    s4.style.height = ''; s4.style.minHeight = '';
-    if (trust) { trust.style.height = ''; trust.style.minHeight = ''; }
-    return;
-  }
-  const h = s3.getBoundingClientRect().height;
-  // Section 4 height fixed to section 3; taller panels (e.g. 생각별) are clipped by overflow:hidden
-  s4.style.minHeight = '';
-  s4.style.height = h + 'px';
-  if (trust) trust.style.minHeight = '';
-  if (trust) trust.style.height = h + 'px';
-}
-syncS4Height();
-window.addEventListener('load', syncS4Height);
-window.addEventListener('resize', syncS4Height);
+// 섹션 높이는 이제 전부 CSS 의 height:100vh 로 통일되어 있다(모바일에서는 height:auto).
+// 예전에는 여기서 s3 의 자연 높이를 재서 s4/s5/trust 에 인라인으로 복사했는데,
+// 그러면 s3 만 한 화면보다 커져 1~3번 섹션과 높이가 어긋났다.
 
 // CTA toast
 const toast = document.getElementById('toast');
