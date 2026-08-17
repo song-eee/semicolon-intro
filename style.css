@@ -21,7 +21,7 @@
 }
 
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;scroll-snap-type:y proximity;}
+html{scroll-behavior:smooth;}   /* 스크롤 스냅(페이지 포커싱) 없음 */
 body{
   margin:0;
   font-family:var(--serif);
@@ -123,8 +123,6 @@ header.nav-trust .nav-login{
   min-height:100vh;
   background:#050505;
   overflow:hidden;
-  scroll-snap-align:start;
-  scroll-snap-stop:always;
 }
 .hero-video-bg{position:absolute;inset:0;z-index:0;overflow:hidden;}
 .hero-video{
@@ -195,8 +193,6 @@ header.nav-trust .nav-login{
   min-height:100vh;
   position:relative;
   display:flex;align-items:center;justify-content:center;
-  scroll-snap-align:start;
-  scroll-snap-stop:always;
 }
 .why-noise{
   position:absolute;inset:0;
@@ -350,8 +346,6 @@ header.nav-trust .nav-login{
   padding:120px 0 140px;
   font-family:var(--serif);
   overflow:hidden;
-  scroll-snap-align:start;
-  scroll-snap-stop:always;
 }
 .s2-noise{
   position:absolute;inset:0;
@@ -504,8 +498,6 @@ header.nav-trust .nav-login{
   padding:120px 0 16px;
   font-family:var(--serif);
   overflow:hidden;      /* 기사 이미지 아래쪽은 s2 와 동일하게 잘려 나간다 */
-  scroll-snap-align:start;
-  scroll-snap-stop:always;
 }
 .s3-noise{
   position:absolute;inset:0;
@@ -655,8 +647,6 @@ header.nav-trust .nav-login{
   background:#DFD9C8;
   padding:120px 0 140px;
   font-family:var(--serif);
-  scroll-snap-align:start;
-  scroll-snap-stop:always;
   overflow:hidden;
 }
 .s4-noise,.s5-noise{
@@ -1051,8 +1041,6 @@ header.nav-trust .nav-login{
   background:#DBD4C0;
   padding:120px 0 140px;
   font-family:var(--serif);
-  scroll-snap-align:start;
-  scroll-snap-stop:always;
   overflow:hidden;
 }
 .s5 .container{max-width:1028px;}
@@ -1423,22 +1411,23 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
     transform:none;
   }
   .s4-mb-map{height:200px;}
-  /* 패딩 94px + 타일 3줄(30px*3 + 8px*2 = 106px) = 200px */
-  .s4-tp-map{height:200px;padding:47px 0;}
+  /* 패딩 94px + 타일 3줄(30px*3 + 8px*2 = 106px) = 200px.
+     3줄 그룹을 위로 20px 올리기 위해 위 패딩에서 20 빼고 아래 패딩에 더한다. */
+  .s4-tp-map{height:200px;padding:27px 0 67px;}
 
   /* 주제별: 큰 원 3개(중앙/좌하/우하)만 남긴다 */
   .s4-bubble-tl,.s4-bubble-tr{display:none;}
-  /* 남은 3개는 200px 안에서 서로 부딪히며 떠다닐 수 있는 크기로 줄인다.
-     min() 상한이 없으면 넓은 모바일 폭에서 원 2개를 세로로 못 담아 계속 밀려난다. */
-  .s4-bubble-center{width:min(29vw,120px);height:min(29vw,120px);left:0;top:45px;font-size:10px;}
-  .s4-bubble-bl{width:min(23vw,96px);height:min(23vw,96px);left:40%;top:5px;font-size:10px;}
-  .s4-bubble-br{width:min(23vw,96px);height:min(23vw,96px);left:40%;top:105px;font-size:10px;}
+  /* 좌하/우하는 지정 크기(100px) 2개가 영역 높이(200px)를 정확히 채우므로,
+     겹치지 않게 위/아래 끝에 딱 맞춰 두고 중앙 원은 왼쪽에 배치한다. */
+  .s4-bubble-center{width:130px;height:130px;left:0;top:35px;font-size:10px;}
+  .s4-bubble-bl{width:100px;height:100px;left:calc(100% - 100px);top:0;font-size:10px;}
+  .s4-bubble-br{width:100px;height:100px;left:calc(100% - 100px);top:100px;font-size:10px;}
 
   .s4-tp-filters{width:100%;max-width:480px;}
-  /* 생각별: PC 처럼 정확히 3줄만. 줄바꿈을 막고, 좁아진 폭에서 넘치는 뒤쪽 타일은 감춘다
-     (1줄 4개 / 2줄 5개 / 3줄 4개 = 각각 294 / 205 / 271px, 패널 내부 폭 303px) */
+  /* 생각별: PC 처럼 정확히 3줄만. 줄바꿈을 막고, 좁아진 폭에서 넘치는 뒤쪽 타일은 감춘다.
+     1줄은 타일 2개를 지운 뒤 165px 라 그대로 다 들어간다 (2줄 5개 205px / 3줄 4개 271px,
+     패널 내부 폭 303px) */
   .s4-tp-row{flex-wrap:nowrap;}
-  .s4-tp-row:nth-child(1) > :nth-child(n+5),
   .s4-tp-row:nth-child(2) > :nth-child(n+6),
   .s4-tp-row:nth-child(3) > :nth-child(n+5){display:none;}
 
