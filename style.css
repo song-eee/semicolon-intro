@@ -1386,9 +1386,11 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   .s4-grid{row-gap:10px;}          /* 구분선 -> 탭 간격 (왼쪽 블록 margin 20 + 10 = 30) */
   .s4-tabs{margin-bottom:20px;}    /* 탭 -> 박스 간격 */
 
-  .s4-visual{width:100%;min-width:0;}
+  /* 구분선 아래 영역은 반응형으로 늘어나지 않고 520px 에서 멈춘 뒤 가운데 정렬
+     (혼자 읽기/함께 읽기가 450px 에서 멈추는 것과 같은 방식) */
+  .s4-visual{width:100%;max-width:520px;min-width:0;margin-left:auto;margin-right:auto;}
   .s5-grid{grid-template-columns:minmax(0,1fr);row-gap:36px;}
-  .s5-visual{width:100%;min-width:0;}
+  .s5-visual{width:100%;max-width:520px;min-width:0;margin-left:auto;margin-right:auto;}
 }
 /* 세로로 쌓이는 구간(<=900px)은 모바일과 동일한 구성으로 노출한다 */
 @media (max-width:900px){
