@@ -981,8 +981,8 @@ header.nav-trust .nav-login{
 
 /* section headings for the member panel */
 .s4-mb-h{margin-top:28px;font-size:17px;}   /* 2px larger than the base 15px */
-/* '나의 소셜 리딩 페르소나는?' 부터 그 아래 전체를 위로 당긴다 (기본 28px 에서 -70) */
-.s4-panel-member .s4-mb-h:first-of-type{margin-top:-42px;}
+/* '나의 소셜 리딩 페르소나는?' 부터 그 아래 전체의 세로 위치 (기본 28px 대신) */
+.s4-panel-member .s4-mb-h:first-of-type{margin-top:1px;}
 .s4-mb-hemoji{font-size:16px;line-height:1;}
 .s4-mb-hicon-img{width:30px;height:30px;object-fit:contain;display:inline-block;flex:0 0 auto;}
 
