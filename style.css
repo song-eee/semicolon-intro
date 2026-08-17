@@ -711,7 +711,8 @@ header.nav-trust .nav-login{
   background:#F9F7F2;
   border-radius:30px;
   box-shadow:0 16px 40px rgba(0,0,0,.06);
-  padding:40px 20px 20px;
+  /* 위 여백 40 -> 30: 세 탭 모두 맨 위 문구부터 그 아래 요소 전체가 10px 위로 */
+  padding:30px 20px 20px;
 }
 /* Smooth fade-in each time a panel becomes visible (auto-roll or manual click) */
 .s4-panel:not([hidden]){animation:s4PanelFade .5s var(--ease);}
@@ -812,7 +813,7 @@ header.nav-trust .nav-login{
 
 /* node map (그룹) — 박스 좌우 중앙정렬, 상단 50 / 하단 80 */
 .s4-tp-map{
-  display:flex;flex-direction:column;align-items:center;gap:8px;
+  display:flex;flex-direction:column;align-items:center;gap:13px;   /* 줄 간격 8 -> 13 */
   padding:50px 0 80px;
 }
 .s4-tp-row{
@@ -1414,7 +1415,7 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
      use a taller height, with 20px gaps to the intro above and cards below. The JS
      drift reads the element's live size as its bounds, so the circles bounce off the
      real (panel-wide) edges. */
-  .s4-panel{padding:32px 16px 16px;}
+  .s4-panel{padding:22px 16px 16px;}   /* PC 와 동일하게 위 여백에서 10px */
 
   /* 세 탭의 인포그래픽 영역 높이를 모두 200px 로 통일 */
   .s4-bubbles{
@@ -1424,9 +1425,9 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
     transform:none;
   }
   .s4-mb-map{height:200px;}
-  /* 패딩 94px + 타일 3줄(30px*3 + 8px*2 = 106px) = 200px.
-     3줄 그룹을 위로 20px 올리기 위해 위 패딩에서 20 빼고 아래 패딩에 더한다. */
-  .s4-tp-map{height:200px;padding:27px 0 67px;}
+  /* 타일 3줄(30px*3) + 줄 간격(13px*2) = 116px, 패딩 84px = 200px.
+     줄 간격이 5px 씩 늘어난 만큼(10px) 아래 패딩에서 뺐다. */
+  .s4-tp-map{height:200px;padding:27px 0 57px;}
 
   /* 주제별: 큰 원 3개(중앙/좌하/우하)만 남긴다 */
   .s4-bubble-tl,.s4-bubble-tr{display:none;}
