@@ -993,7 +993,7 @@ header.nav-trust .nav-login{
 /* '나의 소셜 리딩 페르소나는?' 부터 그 아래 전체의 세로 위치 (기본 28px 대신) */
 .s4-panel-member .s4-mb-h:first-of-type{margin-top:1px;}
 .s4-mb-hemoji{font-size:16px;line-height:1;}
-.s4-mb-hicon-img{width:24px;height:24px;object-fit:contain;display:inline-block;flex:0 0 auto;}
+.s4-mb-hicon-img{width:20px;height:20px;object-fit:contain;display:inline-block;flex:0 0 auto;}
 
 /* persona card — same box style as the 주제별/생각별 list boxes, in green */
 .s4-mb-persona{
