@@ -1448,6 +1448,9 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   .s4-mb-dot:nth-of-type(15),
   .s4-mb-dot:nth-of-type(18){display:none;}
 
+  /* 마지막 페이지 로고 3종은 가로가 아니라 세로로 쌓는다 */
+  .trust-logos{flex-direction:column;}
+
   /* Trust: no longer forced onto one line; stack the CTA buttons */
   .trust .container{padding-left:24px;padding-right:24px;}
   .trust-text{font-size:1rem;line-height:1.6;}
@@ -1460,9 +1463,17 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   .s3-count-pc{display:none;}
   .s3-count-mo{display:inline;}
 
-  /* The fixed header hides while scrolling down and returns on scroll up (class
-     toggled in JS). Only translate on mobile so desktop is unaffected. */
-  header.header-hidden{transform:translateY(-100%);}
+  /* 모바일 네비게이션: 스크롤과 무관하게 항상 노출된다.
+     (JS 는 여전히 header-hidden 을 토글하지만 여기서 아무 동작도 걸지 않는다) */
+
+  /* 높이 92px -> 52px. 내용 높이 42px(로그인 버튼)은 그대로이므로 위아래 여백을
+     50px -> 10px 로 줄인다. 기존 30:20 비율을 유지해 6:4.
+     nav-* 별 padding-bottom:20px 규칙과 특정도를 맞춰야 해서 셀렉터를 함께 적는다. */
+  header,
+  header.nav-hero,header.nav-why,header.nav-s2,
+  header.nav-s3,header.nav-s4,header.nav-s5{
+    padding-top:6px;padding-bottom:4px;
+  }
 
   /* With the header hidden on scroll, pull each section's content up to use the
      freed space at the top (nav is ~73px tall). */
