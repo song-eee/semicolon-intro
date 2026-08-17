@@ -615,6 +615,24 @@ function activateS4Tab(btn){
   });
   // Fallback to the first (주제별) panel for tabs without a dedicated view
   if (!matched) s4Panels.forEach((p, i) => { p.hidden = i !== 0; });
+  clampS4Panels();
+}
+
+// 패널이 섹션 밖으로 넘쳐 직선으로 잘리면 아래 모서리가 각져 보인다.
+// 섹션 하단에서 S4_PANEL_BOTTOM_GAP 만큼 위에서 끝나도록 높이를 제한해,
+// 패널 자신의 30px 라운딩이 그대로 드러나게 한다.
+// 세 패널은 같은 자리에 겹쳐 있으므로 보이는 패널의 위치를 재서 셋 다에 적용한다.
+const S4_PANEL_BOTTOM_GAP = 20;
+function clampS4Panels(){
+  const s4 = document.getElementById('section4');
+  if (!s4 || !s4Panels.length) return;
+  const visible = s4.querySelector('.s4-panel:not([hidden])');
+  if (!visible) return;
+  const sr = s4.getBoundingClientRect();
+  if (!sr.height) return;
+  const topWithinSection = visible.getBoundingClientRect().top - sr.top;  // 스크롤과 무관
+  const max = Math.max(0, sr.height - topWithinSection - S4_PANEL_BOTTOM_GAP);
+  s4Panels.forEach(p => { p.style.maxHeight = max + 'px'; });
 }
 let s4TabIdx = 0;
 let s4TabTimer = null;
@@ -634,6 +652,9 @@ s4Tabs.forEach((btn, i) => {
   });
 });
 if (s4Tabs.length) startS4TabRoll();
+clampS4Panels();
+window.addEventListener('load', clampS4Panels);
+window.addEventListener('resize', clampS4Panels);
 
 // Member map: give each plain thought-dot a random opacity (100/70/50/30%),
 // so the #C5B79D / #A49272 dots read as a scattered field at varied depths.

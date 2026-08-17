@@ -713,6 +713,9 @@ header.nav-trust .nav-login{
   box-shadow:0 16px 40px rgba(0,0,0,.06);
   /* 위 여백 40 -> 30: 세 탭 모두 맨 위 문구부터 그 아래 요소 전체가 10px 위로 */
   padding:30px 20px 20px;
+  /* 넘치는 내용은 섹션이 직선으로 자르는 대신 패널 자신의 30px 라운딩으로 잘리게 한다.
+     실제 높이 제한(max-height)은 JS 가 섹션 하단에 맞춰 넣는다. */
+  overflow:hidden;
 }
 /* Smooth fade-in each time a panel becomes visible (auto-roll or manual click) */
 .s4-panel:not([hidden]){animation:s4PanelFade .5s var(--ease);}
@@ -801,9 +804,7 @@ header.nav-trust .nav-login{
 
 /* ===== Section 4 · 생각별 panel ===== */
 .s4-panel[hidden]{display:none;}
-.s4-panel-thought{
-  overflow:visible;
-}
+/* 생각별도 다른 탭과 같이 패널 라운딩 안에서 잘린다 */
 .s4-tp-intro{
   font-family:var(--pretendard);font-size:15px;font-weight:400;
   color:#000;line-height:1.6;margin:0 0 22px;
@@ -939,7 +940,7 @@ header.nav-trust .nav-login{
 }
 
 /* ===== Section 4 · 멤버별 panel ===== */
-.s4-panel-member{overflow:visible;}
+/* 멤버별도 다른 탭과 같이 패널 라운딩 안에서 잘린다 */
 
 /* thought-distance map: a scatter of thought dots with a few member avatars */
 .s4-mb-map{position:relative;width:100%;height:250px;margin:0 0 6px;}
