@@ -302,7 +302,7 @@ const heroLines = document.querySelectorAll('.hero-line');
 // 히어로에서 번갈아 도는 문구 (0번이 마크업의 초기 문구)
 // typed:true 인 문구는 줄 단위 페이드 대신 한 글자씩 차례로 나타난다.
 const HERO_PHRASES = [
-  {lines: ['혼자 읽고 마치던 생각을', '같이 이어나갑니다']},
+  {lines: ['혼자 읽고 마치던 생각을', '같이 이어나갑니다'], hold: 1500},
   {lines: ['소셜 리딩 커뮤니티,', '세미콜론.'], typed: true}
 ];
 const heroFitCanvas = document.createElement('canvas');
@@ -374,8 +374,8 @@ const heroTextGroup = document.querySelector('.hero-text-group');
 // 3) 인트로가 다 뜬 뒤부터는 두 문구를 번갈아 롤링한다.
 //    (한 문구가 머무는 시간 HOLD, 교체는 페이드 아웃 -> 텍스트 교체 -> 페이드 인)
 const HERO_INTRO_MS = 2000;   // 1번 줄 -> 2번 줄 등장 간격
-const HERO_ROLL_FADE = 800;   // CSS .rolling 의 opacity transition 과 동일
-const HERO_ROLL_HOLD = 2000;  // 문구가 완전히 뜬 뒤 다음 문구로 넘어가기까지
+const HERO_ROLL_FADE = 200;   // CSS .rolling 의 opacity transition 과 동일
+const HERO_ROLL_HOLD = 2000;  // 문구별 기본 유지 시간 (문구에 hold 가 있으면 그 값)
 const HERO_TYPE_MS = 2000;    // 타이핑 문구가 전부 드러나는 데 걸리는 시간
 const HERO_CHAR_FADE = 500;   // 글자 하나가 켜지는 시간 (CSS .hero-char transition 과 동일)
 
@@ -429,7 +429,7 @@ function rollHeroPhrase(){
   heroLine2.classList.remove('show');
   heroTypeTimers.push(setTimeout(() => {
     const holdThenRoll = () => {
-      heroTypeTimers.push(setTimeout(rollHeroPhrase, HERO_ROLL_HOLD));
+      heroTypeTimers.push(setTimeout(rollHeroPhrase, phrase.hold || HERO_ROLL_HOLD));
     };
     if (phrase.typed) showHeroTyped(phrase.lines, holdThenRoll);
     else showHeroFaded(phrase.lines, holdThenRoll);
@@ -446,7 +446,7 @@ if (heroDot && heroColon && heroLine1 && heroLine2) {
     setTimeout(() => {
       if (heroTextGroup) heroTextGroup.classList.add('rolling');
       rollHeroPhrase();
-    }, 1000 + HERO_ROLL_HOLD);   // 2번 줄 페이드인(1s)이 끝난 뒤부터 hold 시작
+    }, 1000 + (HERO_PHRASES[0].hold || HERO_ROLL_HOLD));   // 2번 줄 페이드인(1s) 뒤부터 hold
   }, HERO_INTRO_MS);
 }
 

@@ -171,7 +171,7 @@ header.nav-trust .nav-login{
 /* 문구 롤링이 시작되면 두 줄의 페이드 길이를 통일한다
    (1번 줄의 인트로용 2s 페이드는 반복 전환에는 너무 느림) */
 .hero-text-group.rolling .hero-line,
-.hero-text-group.rolling #hero-line-1{transition:opacity .8s var(--ease);}
+.hero-text-group.rolling #hero-line-1{transition:opacity .2s var(--ease);}
 /* 한 글자씩 타이핑되는 문구: 줄 단위 페이드는 끄고 글자 단위로만 드러낸다.
    (위 .rolling 규칙과 특정도가 같으므로 반드시 뒤에 와야 이긴다) */
 .hero-text-group.typing .hero-line,
