@@ -80,13 +80,14 @@ section{position:relative;}
 /* ===== Header ===== */
 header{
   position:fixed;top:0;left:0;right:0;z-index:900;
-  padding:30px 30px 20px 30px;
+  /* 높이 72px = 18 + 42(로그인 버튼) + 12 */
+  padding:18px 30px 12px 30px;
   display:flex;align-items:center;justify-content:space-between;gap:16px;
   transition:background .35s var(--ease),padding-bottom .35s var(--ease),transform .35s var(--ease);
 }
 header.nav-hero,header.nav-why,header.nav-s2,
 header.nav-s3,header.nav-s4,header.nav-s5{
-  padding-bottom:20px;
+  padding-bottom:12px;
 }
 header.scrolled.nav-hero,header.scrolled.nav-why,header.scrolled.nav-s2,
 header.scrolled.nav-s3,header.scrolled.nav-s4,header.scrolled.nav-s5{
@@ -1466,20 +1467,30 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   /* 모바일 네비게이션: 스크롤과 무관하게 항상 노출된다.
      (JS 는 여전히 header-hidden 을 토글하지만 여기서 아무 동작도 걸지 않는다) */
 
-  /* 높이 92px -> 52px. 내용 높이 42px(로그인 버튼)은 그대로이므로 위아래 여백을
-     50px -> 10px 로 줄인다. 기존 30:20 비율을 유지해 6:4.
-     nav-* 별 padding-bottom:20px 규칙과 특정도를 맞춰야 해서 셀렉터를 함께 적는다. */
+  /* 높이 62px = 12 + 42(로그인 버튼) + 8.
+     nav-* 별 padding-bottom 규칙과 특정도를 맞춰야 해서 셀렉터를 함께 적는다. */
   header,
   header.nav-hero,header.nav-why,header.nav-s2,
   header.nav-s3,header.nav-s4,header.nav-s5{
-    padding-top:6px;padding-bottom:4px;
+    padding-top:12px;padding-bottom:8px;
   }
 
-  /* With the header hidden on scroll, pull each section's content up to use the
-     freed space at the top (nav is ~73px tall). */
-  .s2{padding-top:56px;}
-  .s3{padding-top:56px;}
-  .s4{padding-top:56px;}
+  /* 항상 떠 있는 62px 헤더 아래로 콘텐츠가 들어가지 않도록 상단 여백 확보 */
+  .s2{padding-top:68px;}
+  .s3{padding-top:68px;}
+  .s4{padding-top:68px;}
+
+  /* 4개 티저 섹션(혼자 읽기 / 함께 읽기 / 소셜 인사이트 / 아카이빙):
+     태그·타이틀·서브 텍스트를 가운데 정렬하고, 아래 영역과 1px 선으로 구분한다 */
+  .s2-left,.s3-left,.s4-left,.s5-left{
+    text-align:center;
+    padding-bottom:20px;
+    border-bottom:1px solid rgba(0,0,0,.1);
+  }
+  /* 좌우 여백 20px 고정 — 기본값 clamp(20px,5vw,64px) 은 넓은 모바일에서 20px 을 넘는다 */
+  .s2 .container,.s3 .container,.s4 .container,.s5 .container{
+    padding-left:20px;padding-right:20px;
+  }
 
   /* s4(소셜 인사이트) / s5(아카이빙) 는 PC 와 마찬가지로 한 화면 높이로 자르고
      넘치는 아래쪽은 감춘다 — 모바일에서 콘텐츠 높이대로 두면 2000px 넘게 길어진다.
@@ -1489,7 +1500,7 @@ footer .fine{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(
   /* 3개 탭이 남은 폭을 균등하게 나눠 갖도록 — 좌우 여백이 같은 채로 중앙에 놓인다 */
   .s4-tabs{width:100%;}
   .s4-tab{flex:1 1 0;width:auto;min-width:0;}
-  .s5{padding-top:56px;padding-bottom:80px;}
+  .s5{padding-top:68px;padding-bottom:80px;}
 
   /* Archiving cards: the menu is anchored to the card's right edge, which gets
      narrow on phones — pull it in so it never hangs off the card. */
